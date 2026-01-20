@@ -1,9 +1,10 @@
+import Writepost from "./components/writepost";
 
 
 export default function Home() {
   return (
     <>
-    <h1 className="text-green-600">hallo</h1>
+    <Writepost />
     </>
   );
 }
