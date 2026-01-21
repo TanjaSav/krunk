@@ -1,9 +1,11 @@
-
+import YourPost from "./components/yourpost";
 
 export default function Home() {
   return (
     <>
-    <h1 className="text-green-600">hallo</h1>
+    <div className="mx-100 my-20">
+      <YourPost />
+    </div>
     </>
   );
 }
