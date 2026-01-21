@@ -28,6 +28,6 @@ async function run() {
 export default async function Database() {
     const greetings =  await run();
     return (<>
-        {greetings.map(greetingObj=> <h1>{greetingObj.greeting}</h1>)}
+        {greetings.map(greetingObj=> <h1 key={greetingObj.greeting}>{greetingObj.greeting}</h1>)}
     </>)
   }
