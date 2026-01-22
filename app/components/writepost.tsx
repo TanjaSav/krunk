@@ -47,11 +47,12 @@ function WritePost() {
   };
 
   return (
-    <div className="border-[#313F4C] border px-12 py-5 m-4 font-normal w-2/3">
+    <div className="flex flex-col w-full border-[#313F4C] border px-4  py-5 font-normal">
+      <div className="flex flex-col">
       <input
         type="text"
         placeholder="Hvað er að gerast?"
-        className="w-full pt-4 pb-8 bg-transparent text-white border-none outline-none focus:outline-none focus:ring-0"
+        className="pt-4 pb-8 bg-transparent text-white border-none outline-none focus:outline-none focus:ring-0"
         value={postContent}
         onChange={handleChange}
       />
@@ -74,6 +75,7 @@ function WritePost() {
         >
           Post
         </button>
+        </div>
       </div>
     </div>
   );
