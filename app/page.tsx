@@ -2,8 +2,8 @@
 import Writepost from "./components/writepost";
 import TweetFeed from "./components/tweetfeed";
 import getTweets  from "./lib/getTweets";
-import Navbar from "./components/navbar";
 import Mobilenav from "./components/mobilenav";
+import Navbar from "./components/navbar";
 
 
 export default async function Home() {
