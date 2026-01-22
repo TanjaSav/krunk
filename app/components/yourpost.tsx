@@ -36,8 +36,13 @@ export default function Yourpost({
                             @{authorName}
                         </p>
                         {/* Timestamp */}
-                        <p className="text-gray-500 text-xs">
-                            Posted on {new Date(createdAt).toLocaleString('is-IS')}
+                        <p className="text-[#8B99A6] text-[11px] flex items-center pl-2">
+                            Posted on {new Date(createdAt).toLocaleString('is-IS', { 
+                                month: 'short', 
+                                day: 'numeric', 
+                                hour: '2-digit', 
+                                minute: '2-digit' 
+                            })}
                         </p>
                         </div>
                         <img 

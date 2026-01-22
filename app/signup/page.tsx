@@ -6,7 +6,7 @@ import Button from '../components/button';
 import Image from 'next/image';
 import Captcha from '../components/captcha';
 
-const Login = () => {
+const SignUp = () => {
   const router = useRouter();
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
@@ -17,7 +17,7 @@ const Login = () => {
       return;
     }
     const formData = new FormData(e.currentTarget);
-    console.log('Login attempt:', Object.fromEntries(formData));
+    console.log('Sign up attempt:', Object.fromEntries(formData));
   };
 
   const handleCaptchaChange = (token: string | null) => {
@@ -31,9 +31,10 @@ const Login = () => {
     <div className="min-h-screen p-8 bg-[#000000] flex items-center justify-center">
       <div className="max-w-md w-full space-y-6 flex flex-col items-center">
         <Image src="/images/logo.svg" alt="Logo" width={95} height={101} />
-        <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
-        <form onSubmit={handleSubmit} className="space-y-4 flex flex-col items-center">
+        <h1 className="text-2xl font-bold mb-6 text-center">Sign up</h1>
+        <form onSubmit={handleSubmit} className="space-y-4 w-full flex flex-col items-center">
           <Input name="username" label="Notandanafn" placeholder="Notandanafn" />
+          <Input type="email" name="email" label="Netfang" placeholder="Netfang" />
           <Input type="password" name="password" label="Lykilorð" placeholder="Lykilorð" />
           <Captcha onChange={handleCaptchaChange} onExpired={handleCaptchaExpired} />
           <Button type="submit" disabled={!captchaToken}>Staðfesta</Button>
@@ -42,11 +43,11 @@ const Login = () => {
             <span className="text-gray-400 text-sm">eða</span>
             <div className="flex-1 h-px bg-gray-600"></div>
           </div>
-          <Button type="button" onClick={() => router.push('/signup')}>Stofna aðgang</Button>
+          <Button type="button" onClick={() => router.push('/login')}>Skrá inn</Button>
         </form>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default SignUp;

@@ -3,6 +3,7 @@ import Writepost from "./components/writepost";
 import TweetFeed from "./components/tweetfeed";
 import getTweets  from "./lib/getTweets";
 import Navbar from "./components/navbar";
+import Mobilenav from "./components/mobilenav";
 
 
 export default async function Home() {
@@ -17,6 +18,7 @@ export default async function Home() {
         <div className="w-full sm:max-w-sm md:max-w-md">
           <Writepost />
           <TweetFeed tweets={tweets} />
+          <Mobilenav />
         </div>
       </main>
     </div>
