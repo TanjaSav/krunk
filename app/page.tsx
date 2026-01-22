@@ -1,9 +1,17 @@
+import Navbar from "./components/navbar";
 import Writepost from "./components/writepost";
+import TweetFeed from "./components/tweetfeed";
+import getTweets  from "./lib/getTweets";
 
-export default function Home() {
+
+export default async function Home() {
+  const tweets = await getTweets();
+
   return (
-    <>
-    <Writepost />
-    </>
+    <main>
+      <Writepost />
+      <TweetFeed tweets={tweets} />
+       <Navbar />
+    </main>
   );
 }
