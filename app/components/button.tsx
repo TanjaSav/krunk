@@ -23,6 +23,7 @@ const Button = ({
         fontFamily: 'var(--font-poppins), Poppins, sans-serif',
         fontSize: '14px',
         fontWeight: 500,
+        lineHeight: 'normal',
         color: '#E0E0E0'
       }}
       className={`w-[229px] h-[46px] rounded-[24px] flex items-center justify-center transition-opacity duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 active:opacity-80 ${className}`}

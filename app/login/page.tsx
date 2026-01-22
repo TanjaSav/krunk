@@ -1,11 +1,13 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Input from '../components/input';
 import Button from '../components/button';
 import Image from 'next/image';
 import Captcha from '../components/captcha';
 
 const Login = () => {
+  const router = useRouter();
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -40,7 +42,7 @@ const Login = () => {
             <span className="text-gray-400 text-sm">eða</span>
             <div className="flex-1 h-px bg-gray-600"></div>
           </div>
-          <Button type="button">Stofna aðgang</Button>
+          <Button type="button" onClick={() => router.push('/signup')}>Stofna aðgang</Button>
         </form>
       </div>
     </div>

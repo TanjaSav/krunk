@@ -26,11 +26,11 @@ const Input = ({ type = 'text', placeholder, value, onChange, className = '', di
       name={name}
       id={inputId}
       style={{ backgroundColor: '#fdfdff', fontFamily: 'var(--font-poppins), Poppins, sans-serif' }}
-      className={`w-67.25 h-9.5border border-black border-solid rounded-[40px] px-4 text-sm font-normal outline-none transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:ring-2 focus:ring-black focus:ring-offset-2 ${className}`}
+      className={`w-[269px] h-[38px] border border-black border-solid rounded-[40px] px-4 text-sm font-normal outline-none transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:ring-2 focus:ring-black focus:ring-offset-2 ${className}`}
     />
   );
   return label ? (
-    <div className="flex flex-col gap-2.5 items-center w-full">
+    <div className="flex flex-col gap-[10px] items-center w-full">
       <label htmlFor={inputId} style={{ fontFamily: 'var(--font-poppins), Poppins, sans-serif', fontSize: '14px', fontWeight: 500, lineHeight: 'normal', color: '#e0e0e0' }} className="w-[269px] text-left">{label}</label>
       {input}
     </div>
