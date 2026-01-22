@@ -1,13 +1,17 @@
-import YourPost from "./components/yourpost";
+import Navbar from "./components/navbar";
 import Writepost from "./components/writepost";
+import TweetFeed from "./components/tweetfeed";
+import getTweets  from "./lib/getTweets";
 
-export default function Home() {
+
+export default async function Home() {
+  const tweets = await getTweets();
+
   return (
-    <>
-    <div className="mx-100 my-20">
-      <YourPost />
-    </div>
-    <Writepost />
-    </>
+    <main>
+      <Writepost />
+      <TweetFeed tweets={tweets} />
+       <Navbar />
+    </main>
   );
 }
