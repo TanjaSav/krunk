@@ -1,13 +1,29 @@
 'use client';
+import { useState } from 'react';
 import Input from '../components/input';
 import Button from '../components/button';
 import Image from 'next/image';
+import Captcha from '../components/captcha';
 
 const SignIn = () => {
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!captchaToken) {
+      alert('Vinsamlegast staðfestu að þú sért ekki vélmenni');
+      return;
+    }
     const formData = new FormData(e.currentTarget);
     console.log('Sign in attempt:', Object.fromEntries(formData));
+  };
+
+  const handleCaptchaChange = (token: string | null) => {
+    setCaptchaToken(token);
+  };
+
+  const handleCaptchaExpired = () => {
+    setCaptchaToken(null);
   };
   return (
     <div className="min-h-screen p-8 bg-[#000000] flex items-center justify-center">
@@ -18,7 +34,8 @@ const SignIn = () => {
           <Input name="username" label="Notandanafn" placeholder="Notandanafn" />
           <Input type="email" name="email" label="Netfang" placeholder="Netfang" />
           <Input type="password" name="password" label="Lykilorð" placeholder="Lykilorð" />
-          <Button type="submit">Staðfesta</Button>
+          <Captcha onChange={handleCaptchaChange} onExpired={handleCaptchaExpired} />
+          <Button type="submit" disabled={!captchaToken}>Staðfesta</Button>
         </form>
       </div>
     </div>
