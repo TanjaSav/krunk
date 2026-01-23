@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
+import { getUserByUsername } from '@/lib/auth';
 
 export async function GET() {
   try {
@@ -7,7 +8,15 @@ export async function GET() {
     if (!username) {
       return NextResponse.json({ authenticated: false }, { status: 401 });
     }
-    return NextResponse.json({ authenticated: true, username });
+    
+    const user = await getUserByUsername(username);
+    const profilePicture = user?.profilePicture || '/images/circle.png';
+    
+    return NextResponse.json({ 
+      authenticated: true, 
+      username,
+      profilePicture 
+    });
   } catch (error: any) {
     return NextResponse.json(
       { authenticated: false, error: error.message },

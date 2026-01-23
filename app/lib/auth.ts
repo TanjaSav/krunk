@@ -6,6 +6,7 @@ export interface User {
   _id: string;
   username: string;
   email: string;
+  profilePicture?: string;
 }
 
 export async function hashPassword(password: string): Promise<string> {
@@ -52,6 +53,7 @@ export async function createUser(username: string, email: string, hashedPassword
     username,
     email,
     password: hashedPassword,
+    profilePicture: '/images/circle.png',
     createdAt: new Date(),
   });
 }

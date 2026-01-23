@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 function WritePost() {
   const [postContent, setPostContent] = useState("");
   const [username, setUsername] = useState<string | null>(null);
+  const [profilePicture, setProfilePicture] = useState<string>('/images/circle.png');
   const router = useRouter();
 
   useEffect(() => {
@@ -15,6 +16,7 @@ function WritePost() {
       .then(data => {
         if (data.authenticated) {
           setUsername(data.username);
+          setProfilePicture(data.profilePicture || '/images/circle.png');
         }
       })
       .catch(err => {
@@ -38,7 +40,7 @@ function WritePost() {
       content: postContent,
       imageUrl: '', // TODO: add image upload
       authorName: username,
-      authorAvatar: "/images/circle.png",
+      authorAvatar: profilePicture,
       createdAt: new Date(),
     };
    try {
