@@ -1,6 +1,40 @@
+"use client";
+
 import Image from "next/image";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
+  const [username, setUsername] = useState<string | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    fetch('/api/auth/me')
+      .then(res => res.json())
+      .then(data => {
+        if (data.authenticated) {
+          setUsername(data.username);
+        }
+      })
+      .catch(err => {
+        console.error('Error fetching user:', err);
+      });
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+      });
+      const result = await response.json();
+      if (result.success) {
+        router.push('/login');
+        router.refresh();
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
   return (
     < nav className="bg-black text-white w-95 h-screen pt-7 pl-18 pr-6 pb-8 hidden md:flex flex-col justify-between border-r border-[#8B99A6]">
       <div>
@@ -44,7 +78,10 @@ export default function Navbar() {
               Tilkynningar
             </span>
           </li>
-          <li className="flex items-center gap-4">
+          <li 
+            className="flex items-center gap-4 cursor-pointer hover:opacity-80"
+            onClick={handleLogout}
+          >
             <Image src="/images/logout.svg" 
               alt="Skrá út" width={20} height={20} 
             />
@@ -64,10 +101,10 @@ export default function Navbar() {
         />
         <div>
           <div className="text-poppins text-sm font-regular">
-            Name
+            {username || 'Notandi'}
           </div>
           <div className="text-poppins text-sm text-[#8B99A6] font-regular ">
-            @username
+            @{username || 'username'}
           </div>
         </div>
       </div>
