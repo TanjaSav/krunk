@@ -25,6 +25,8 @@ export async function POST(request: Request) {
       ...body,
       authorName: username,
       authorAvatar: body.authorAvatar || userProfilePicture,
+      likes: 0,
+      likedBy: [],
       createdAt: new Date()
     });
     
