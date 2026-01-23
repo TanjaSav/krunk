@@ -25,7 +25,7 @@ const Input = ({ type = 'text', placeholder, value, onChange, className = '', di
       disabled={disabled}
       name={name}
       id={inputId}
-      style={{ backgroundColor: '#fdfdff', fontFamily: 'var(--font-poppins), Poppins, sans-serif' }}
+      style={{ backgroundColor: '#fdfdff', fontFamily: 'var(--font-poppins), Poppins, sans-serif', color: '#000000' }}
       className={`w-[269px] h-[38px] border border-black border-solid rounded-[40px] px-4 text-sm font-normal outline-none transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:ring-2 focus:ring-black focus:ring-offset-2 ${className}`}
     />
   );
