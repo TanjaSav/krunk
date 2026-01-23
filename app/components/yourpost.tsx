@@ -1,91 +1,65 @@
+import Image from "next/image";
+
 interface TweetProps {
+  postId: string;
   content: string;
   imageUrl?: string;
   createdAt: Date | string;
   authorName: string;
   authorAvatar: string;
   dateAdded?: string;
+  onEdit: () => void;
 }
 
-export default function Yourpost({ 
-  content, 
-  imageUrl, 
-  createdAt, 
-  authorName, 
-  authorAvatar 
+// Renders a single tweet post
+export default function Yourpost({
+  content,
+  imageUrl,
+  createdAt,
+  authorName,
+  authorAvatar,
+  onEdit,
 }: TweetProps) {
-
   return (
-        <>
-        <div className="w-130 h-22 bg-black border border-[#727272] py-3 px-20 flex flex-col">
-            <div className="flex flex-row gap-2">
-                
-                {/* Author */}
-                <img 
-                    src={authorAvatar} 
-                    alt={authorName}
-                    className="w-10 h-10 rounded-full object-cover"
-                />
-                <div className="w-full">
-                    <div className="flex flex-row w-full justify-between items-center">
-                        <div className="flex flex-row gap-1">
-                        <p className="text-white font-semibold text-sm">
-                            {authorName}
-                        </p>
-                        <p className="text-[#8B99A6] text-sm">
-                            @{authorName}
-                        </p>
-                        {/* Timestamp */}
-                        <p className="text-gray-500 text-xs">
-                            Posted on {new Date(createdAt).toLocaleString('is-IS')}
-                        </p>
-                        </div>
-                        <img 
-                            src="/images/edit.svg" 
-                            alt="edit" 
-                            className="w-3 h-3"/>
-                    </div>
-                    
-                    {/* Content */}
-                    <p className="text-white text-sm">
-                        {content}
-                    </p>
-                    {/* Image */}
-                    {imageUrl && (
-                        <img 
-                        src={imageUrl} 
-                        alt="Tweet image" 
-                        className="rounded-2xl max-w-full mb-3"
-                        />
-                    )}
-                </div>
+    <div className="w-130 h-22 bg-black border border-[#727272] py-3 px-20 flex flex-col">
+      <div className="flex flex-row gap-2">
+        <Image
+          src={authorAvatar} 
+          alt={authorName}
+          width={40}
+          height={40}
+          className="rounded-full object-cover"
+        />
+        <div className="w-full">
+          <div className="flex flex-row w-full justify-between items-center">
+            <div className="flex flex-row gap-1">
+              <p className="text-white font-semibold text-sm">{authorName}</p>
+              <p className="text-[#8B99A6] text-sm">@{authorName}</p>
+              <p className="text-gray-500 text-xs">
+                Posted on {new Date(createdAt).toLocaleString("is-IS")}
+              </p>
             </div>
-
-            {/* Reactions */}
-            <div className="flex w-full justify-between pl-12 pt-1.5">
-                <div className="flex gap-1 items-center">
-                    <img 
-                        src="/images/comment.svg" 
-                        alt="comment" 
-                        className="w-3.5 h-3.5"/>
-                    <p className="text-[#8B99A6] text-[11px]">95</p>
-                </div>
-                <div className="flex gap-1 items-center">
-                    <img 
-                        src="/images/repost.svg" 
-                        alt="repost" 
-                        className="w-3.5 h-3.5"/>
-                    <p className="text-[#8B99A6] text-[11px]">1.3K</p>
-                </div>
-                <div className="flex gap-1 items-center">
-                    <img 
-                        src="/images/Heart.svg" 
-                        alt="like" 
-                        className="w-3.5 h-3.5"/>
-                    <p className="text-[#8B99A6] text-[11px]">1.3K</p>
-                </div>
-            </div>
+            <Image
+              src="/images/edit.svg"
+              alt="edit"
+              width={12}
+              height={12}
+              className="cursor-pointer hover:opacity-70"
+              onClick={onEdit}
+            />
+          </div>
+          <p className="text-white text-sm">{content}</p>
+          {imageUrl && (
+            <Image
+              src={imageUrl}
+              alt="Tweet image"
+              width={300}
+              height={200}
+              className="rounded-2xl max-w-full mb-3 object-cover"
+            />
+          )}
         </div>
-        </>
-    )
+      </div>
+    </div>
+  );
 }

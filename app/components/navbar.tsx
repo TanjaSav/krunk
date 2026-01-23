@@ -59,7 +59,7 @@ export default function Navbar() {
       {/* Bottom part */}
       <div className="flex items-center gap-4">
         <Image
-          src="/images/circle.png" 
+          src="/images/avatar.png" 
           alt="Profile Picture" width={42} height={42}
         />
         <div>

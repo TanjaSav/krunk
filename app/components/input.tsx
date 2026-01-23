@@ -31,10 +31,11 @@ const Input = ({ type = 'text', placeholder, value, onChange, className = '', di
   );
   return label ? (
     <div className="flex flex-col gap-2.5 items-center w-full">
-      <label htmlFor={inputId} style={{ fontFamily: 'var(--font-poppins), Poppins, sans-serif', fontSize: '14px', fontWeight: 500, lineHeight: 'normal', color: '#e0e0e0' }} className="w-[269px] text-left">{label}</label>
+      <label htmlFor={inputId} style={{ fontFamily: 'var(--font-poppins), Poppins, sans-serif', fontSize: '14px', fontWeight: 500, lineHeight: 'normal', color: '#e0e0e0' }} className="w-67.25 text-left">{label}</label>
       {input}
     </div>
   ) : input;
 };
 
 export default Input;
+

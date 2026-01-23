@@ -1,48 +1,68 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-function WritePost() {
-  const [postContent, setPostContent] = useState("");
+interface WritePostProps {
+  postId?: string;
+  initialContent?: string;
+  initialImageUrl?: string;
+  initialAuthorName?: string;
+  initialAuthorAvatar?: string;
+  onFinish?: () => void;
+}
+
+// Renders the post input form for creating or editing
+export default function WritePost({
+  postId,
+  initialContent = "",
+  initialImageUrl = "",
+  initialAuthorName = "óli",
+  initialAuthorAvatar = "/images/avatar.png",
+  onFinish,
+}: WritePostProps) {
+  const [postContent, setPostContent] = useState(initialContent);
   const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPostContent(e.target.value);
-  };
+  // Update input when editing a different post
+  useEffect(() => {
+    setPostContent(initialContent);
+  }, [initialContent]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const formData = {
       content: postContent,
-      imageUrl: '', // Add image upload later
-      authorName: "óli",
-      authorAvatar: "/images/avatar.jpg",
-      createdAt: new Date(),
+      imageUrl: initialImageUrl,
+      authorName: initialAuthorName,
+      authorAvatar: initialAuthorAvatar,
+      updatedAt: new Date(),
     };
-//TRY BLOCK- IN CASE OF ERRORS
-   try {
-      const response = await fetch('/api/submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+
+    const method = postId ? "PUT" : "POST";
+    const url = postId ? `/api/posts/${postId}` : "/api/submit";
+
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       const data = await response.json();
-      
+
       if (data.success) {
-        setPostContent(''); // ← Clear input
-        router.refresh(); // ← Refresh page data without full reload!
+        setPostContent("");
+        onFinish?.();
+        router.refresh();
       } else {
-        alert('Error: ' + data.error);
+        alert("Error: " + data.error);
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert('Failed to submit');
+      console.error("Error submitting post:", error);
+      alert("Failed to submit");
     }
   };
 
@@ -53,7 +73,7 @@ function WritePost() {
         placeholder="Hvað er að gerast?"
         className="w-full pt-4 pb-8 bg-transparent text-white border-none outline-none focus:outline-none focus:ring-0"
         value={postContent}
-        onChange={handleChange}
+        onChange={(e) => setPostContent(e.target.value)}
       />
       <div className="border-t border-[#313F4C] pt-4 flex justify-between items-center">
         <Image
@@ -72,11 +92,9 @@ function WritePost() {
           onClick={handleSubmit}
           disabled={!postContent}
         >
-          Post
+          {postId ? "Save" : "Post"}
         </button>
       </div>
     </div>
   );
 }
-
-export default WritePost;
