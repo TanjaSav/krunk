@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} bg-black text-white`}>
+      <body className={`${poppins.variable} bg-black text-white`} suppressHydrationWarning>
         <div className="flex min-h-screen w-full max-w-6xl mx-auto">
           {/* Main Content */}
           <main className="flex-1 min-w-0">
