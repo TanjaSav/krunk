@@ -7,17 +7,17 @@ import { useRouter } from "next/navigation";
 function WritePost() {
   const [postContent, setPostContent] = useState("");
   const [username, setUsername] = useState<string | null>(null);
+  const [profilePicture, setProfilePicture] = useState<string>('/images/circle.png');
   const router = useRouter();
 
   useEffect(() => {
-    // Get current user from session
     fetch('/api/auth/me')
       .then(res => res.json())
       .then(data => {
         if (data.authenticated) {
           setUsername(data.username);
+          setProfilePicture(data.profilePicture || '/images/circle.png');
         }
-        // Don't redirect here - page level handles authentication
       })
       .catch(err => {
         console.error('Error fetching user:', err);
@@ -32,19 +32,17 @@ function WritePost() {
     e.preventDefault();
     
     if (!username) {
-      // If username is not loaded yet, wait a bit or show message
       alert('Vinsamlegast bíddu á meðan við staðfestum innskráningu');
       return;
     }
     
     const formData = {
       content: postContent,
-      imageUrl: '', 
+      imageUrl: '', // TODO: add image upload
       authorName: username,
-      authorAvatar: "/images/circle.png",
+      authorAvatar: profilePicture,
       createdAt: new Date(),
     };
-//TRY BLOCK- IN CASE OF ERRORS
    try {
       const response = await fetch('/api/submit', {
         method: 'POST',
@@ -57,8 +55,9 @@ function WritePost() {
       const data = await response.json();
       
       if (data.success) {
-        setPostContent(''); // ← Clear input
-        router.refresh(); // ← Refresh page data
+        setPostContent('');
+        router.refresh();
+      } else {
         alert('Error: ' + data.error);
       }
     } catch (error) {
@@ -68,7 +67,7 @@ function WritePost() {
   };
 
   return (
-    <div className="flex flex-col w-full border-[#313F4C] border px-4 py-5 font-normal">
+    <div className="flex flex-col w-full border-[#313F4C] border px-4 py-5 mt-22 md:m-0 font-normal">
       <div className="flex flex-col">
       <input
         type="text"

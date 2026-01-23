@@ -3,9 +3,12 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import ProfilePictureSelector from "./profilepictureselector";
 
 export default function Navbar() {
   const [username, setUsername] = useState<string | null>(null);
+  const [profilePicture, setProfilePicture] = useState<string>('/images/circle.png');
+  const [showSelector, setShowSelector] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -14,6 +17,7 @@ export default function Navbar() {
       .then(data => {
         if (data.authenticated) {
           setUsername(data.username);
+          setProfilePicture(data.profilePicture || '/images/circle.png');
         }
       })
       .catch(err => {
@@ -36,7 +40,7 @@ export default function Navbar() {
     }
   };
   return (
-    < nav className="bg-black mb-0 top-0 text-white w-95 h-screen pt-7 pl-18 pr-6 pb-8 flex flex-col justify-between border-r border-[#8B99A6]">
+    < nav className="bg-black text-white w-95 h-screen pt-7 pl-18 pr-6 pb-8 hidden md:flex flex-col justify-between border-r border-[#8B99A6]">
       <div>
         <div className="flex items-end gap-4 h-6.25 mt-7 mb-18">
 
@@ -94,11 +98,22 @@ export default function Navbar() {
     
 
       {/* Bottom part */}
-      <div className="flex items-center gap-4">
-        <Image
-          src="/images/circle.png" 
-          alt="Profile Picture" width={42} height={42}
-        />
+      <div className="flex items-center gap-4 relative">
+        <button
+          onClick={() => setShowSelector(!showSelector)}
+          className="cursor-pointer hover:opacity-80 transition-opacity"
+        >
+          <Image
+            src={profilePicture} 
+            alt="Profile Picture" 
+            width={42} 
+            height={42}
+            className="rounded-full object-cover"
+            onError={(e) => {
+              e.currentTarget.src = '/images/circle.png';
+            }}
+          />
+        </button>
         <div>
           <div className="text-poppins text-sm font-regular">
             {username || 'Notandi'}
@@ -107,6 +122,13 @@ export default function Navbar() {
             @{username || 'username'}
           </div>
         </div>
+        
+        <ProfilePictureSelector
+          isOpen={showSelector}
+          onClose={() => setShowSelector(false)}
+          onSelect={(picturePath) => setProfilePicture(picturePath)}
+          currentPicture={profilePicture}
+        />
       </div>
     </nav>
   );

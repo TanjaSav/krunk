@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { getSession, getUserByUsername } from '@/lib/auth';
+import { getSession } from '@/lib/auth';
+import { getUserByUsername } from '@/lib/auth';
 
 export async function GET() {
   try {
@@ -9,12 +10,12 @@ export async function GET() {
     }
     
     const user = await getUserByUsername(username);
-    const avatar = user?.avatar || '/images/circle.png';
+    const profilePicture = user?.profilePicture || '/images/circle.png';
     
     return NextResponse.json({ 
       authenticated: true, 
       username,
-      avatar 
+      profilePicture 
     });
   } catch (error: any) {
     return NextResponse.json(

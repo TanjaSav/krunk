@@ -6,7 +6,6 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { username, password, captchaToken } = body;
 
-    // Validate input
     if (!username || !password) {
       return NextResponse.json(
         { success: false, error: 'Username and password are required' },
@@ -21,7 +20,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Get user from database
     const user = await getUserByUsername(username);
     if (!user || !user.password) {
       return NextResponse.json(
@@ -30,7 +28,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Verify password
     const isValidPassword = await verifyPassword(password, user.password as string);
     if (!isValidPassword) {
       return NextResponse.json(
@@ -39,7 +36,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Create session
     await createSession(username);
 
     return NextResponse.json({ 

@@ -6,7 +6,6 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { username, email, password, captchaToken } = body;
 
-    // Validate input
     if (!username || !email || !password) {
       return NextResponse.json(
         { success: false, error: 'All fields are required' },
@@ -21,7 +20,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check if username already exists
     const existingUser = await getUserByUsername(username);
     if (existingUser) {
       return NextResponse.json(
@@ -30,13 +28,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Hash password
     const hashedPassword = await hashPassword(password);
-
-    // Create user
     await createUser(username, email, hashedPassword);
-
-    // Create session
     await createSession(username);
 
     return NextResponse.json({ 

@@ -24,7 +24,7 @@ export default async function Home() {
       <main className="flex flex-col w-full">
         <div className="w-full sm:max-w-sm md:max-w-md">
           <Writepost />
-          <TweetFeed tweets={tweets} />
+          <TweetFeed tweets={tweets} username={username} />
           <Mobilenav />
         </div>
       </main>

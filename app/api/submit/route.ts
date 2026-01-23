@@ -1,10 +1,9 @@
 import clientPromise from '@/lib/mongodb';
 import { NextResponse } from 'next/server';
-import { getSession } from '@/lib/auth';
+import { getSession, getUserByUsername } from '@/lib/auth';
 
 export async function POST(request: Request) {
   try {
-    // Check if user is authenticated
     const username = await getSession();
     if (!username) {
       return NextResponse.json(
@@ -15,14 +14,17 @@ export async function POST(request: Request) {
 
     const body = await request.json();
     
-    // Override authorName with authenticated username for security
+    const user = await getUserByUsername(username);
+    const userProfilePicture = user?.profilePicture || "/images/circle.png";
+    
     const client = await clientPromise;
     const database = client.db("twitter");
     const collection = database.collection("posts");
     
     const result = await collection.insertOne({
       ...body,
-      authorName: username, // Use authenticated username
+      authorName: username,
+      authorAvatar: body.authorAvatar || userProfilePicture,
       createdAt: new Date()
     });
     

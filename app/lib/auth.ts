@@ -6,7 +6,7 @@ export interface User {
   _id: string;
   username: string;
   email: string;
-  avatar?: string;
+  profilePicture?: string;
 }
 
 export async function hashPassword(password: string): Promise<string> {
@@ -23,7 +23,7 @@ export async function createSession(username: string) {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
-    maxAge: 60 * 60 * 24 * 7, // 7 days
+    maxAge: 60 * 60 * 24 * 7,
   });
 }
 
@@ -53,7 +53,7 @@ export async function createUser(username: string, email: string, hashedPassword
     username,
     email,
     password: hashedPassword,
-    avatar: '/images/circle.png', // Default avatar
+    profilePicture: '/images/circle.png',
     createdAt: new Date(),
   });
 }

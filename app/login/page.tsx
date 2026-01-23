@@ -36,7 +36,7 @@ const Login = () => {
       
       if (result.success) {
         router.push('/');
-        router.refresh(); // Refresh to ensure session is recognized
+        router.refresh();
       } else {
         alert('Villa: ' + result.error);
       }
