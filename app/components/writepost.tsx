@@ -1,12 +1,28 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 function WritePost() {
   const [postContent, setPostContent] = useState("");
+  const [username, setUsername] = useState<string | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    // Get current user from session
+    fetch('/api/auth/me')
+      .then(res => res.json())
+      .then(data => {
+        if (data.authenticated) {
+          setUsername(data.username);
+        }
+        // Don't redirect here - page level handles authentication
+      })
+      .catch(err => {
+        console.error('Error fetching user:', err);
+      });
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPostContent(e.target.value);
@@ -15,11 +31,17 @@ function WritePost() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!username) {
+      // If username is not loaded yet, wait a bit or show message
+      alert('Vinsamlegast bíddu á meðan við staðfestum innskráningu');
+      return;
+    }
+    
     const formData = {
       content: postContent,
       imageUrl: '', // Add image upload later
-      authorName: "Krunk",
-      authorAvatar: "/images/avatar.jpg",
+      authorName: username,
+      authorAvatar: "/images/circle.png",
       createdAt: new Date(),
     };
 //TRY BLOCK- IN CASE OF ERRORS

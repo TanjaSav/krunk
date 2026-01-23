@@ -10,14 +10,40 @@ const Login = () => {
   const router = useRouter();
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!captchaToken) {
       alert('Vinsamlegast staðfestu að þú sért ekki vélmenni');
       return;
     }
     const formData = new FormData(e.currentTarget);
-    console.log('Login attempt:', Object.fromEntries(formData));
+    const data = {
+      username: formData.get('username') as string,
+      password: formData.get('password') as string,
+      captchaToken,
+    };
+
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      
+      if (result.success) {
+        router.push('/');
+        router.refresh(); // Refresh to ensure session is recognized
+      } else {
+        alert('Villa: ' + result.error);
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('Villa við að skrá inn');
+    }
   };
 
   const handleCaptchaChange = (token: string | null) => {
