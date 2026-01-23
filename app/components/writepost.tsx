@@ -10,14 +10,12 @@ function WritePost() {
   const router = useRouter();
 
   useEffect(() => {
-    // Get current user from session
     fetch('/api/auth/me')
       .then(res => res.json())
       .then(data => {
         if (data.authenticated) {
           setUsername(data.username);
         }
-        // Don't redirect here - page level handles authentication
       })
       .catch(err => {
         console.error('Error fetching user:', err);
@@ -32,19 +30,17 @@ function WritePost() {
     e.preventDefault();
     
     if (!username) {
-      // If username is not loaded yet, wait a bit or show message
       alert('Vinsamlegast bíddu á meðan við staðfestum innskráningu');
       return;
     }
     
     const formData = {
       content: postContent,
-      imageUrl: '', // Add image upload later
+      imageUrl: '', // TODO: add image upload
       authorName: username,
       authorAvatar: "/images/circle.png",
       createdAt: new Date(),
     };
-//TRY BLOCK- IN CASE OF ERRORS
    try {
       const response = await fetch('/api/submit', {
         method: 'POST',
@@ -57,8 +53,8 @@ function WritePost() {
       const data = await response.json();
       
       if (data.success) {
-        setPostContent(''); // ← Clear input
-        router.refresh(); // ← Refresh page data without full reload!
+        setPostContent('');
+        router.refresh();
       } else {
         alert('Error: ' + data.error);
       }

@@ -22,7 +22,7 @@ export default function Yourpost({
                 
                 {/* Author */}
                 <img 
-                    src={authorAvatar} 
+                    src={authorAvatar || "/images/circle.png"} 
                     alt={authorName}
                     className="w-10 h-10 rounded-full object-cover"
                 />
@@ -56,7 +56,7 @@ export default function Yourpost({
                         {content}
                     </p>
                     {/* Image */}
-                    {imageUrl && (
+                    {imageUrl && imageUrl.trim() !== '' && (
                         <img 
                         src={imageUrl} 
                         alt="Tweet image" 
