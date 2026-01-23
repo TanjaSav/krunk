@@ -18,7 +18,7 @@ function WritePost() {
     const formData = {
       content: postContent,
       imageUrl: '', // Add image upload later
-      authorName: "óli",
+      authorName: "Krunk",
       authorAvatar: "/images/avatar.jpg",
       createdAt: new Date(),
     };
