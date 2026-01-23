@@ -67,7 +67,7 @@ function WritePost() {
   };
 
   return (
-    <div className="flex flex-col w-full border-[#313F4C] border px-4  py-5 font-normal">
+    <div className="flex flex-col w-full border-[#313F4C] border px-4 py-5 mt-22 md:m-0 font-normal">
       <div className="flex flex-col">
       <input
         type="text"
