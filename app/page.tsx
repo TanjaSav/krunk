@@ -10,7 +10,6 @@ import { redirect } from "next/navigation";
 export default async function Home() {
   const username = await getSession();
   
-  // Redirect to login if not authenticated
   if (!username) {
     redirect('/login');
   }

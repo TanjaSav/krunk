@@ -39,7 +39,7 @@ function WritePost() {
     
     const formData = {
       content: postContent,
-      imageUrl: '', // Add image upload later
+      imageUrl: '', 
       authorName: username,
       authorAvatar: "/images/circle.png",
       createdAt: new Date(),
@@ -58,8 +58,7 @@ function WritePost() {
       
       if (data.success) {
         setPostContent(''); // ← Clear input
-        router.refresh(); // ← Refresh page data without full reload!
-      } else {
+        router.refresh(); // ← Refresh page data
         alert('Error: ' + data.error);
       }
     } catch (error) {
@@ -69,7 +68,7 @@ function WritePost() {
   };
 
   return (
-    <div className="flex flex-col w-full border-[#313F4C] border px-4  py-5 font-normal">
+    <div className="flex flex-col w-full border-[#313F4C] border px-4 py-5 font-normal">
       <div className="flex flex-col">
       <input
         type="text"
