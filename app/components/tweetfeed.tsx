@@ -21,6 +21,8 @@ export default function TweetFeed({ tweets, username }: TweetFeedProps) {
             authorAvatar={tweet.authorAvatar}
             likes={tweet.likes}
             isLiked={tweet.isLiked}
+            reposts={tweet.reposts}
+            isReposted={tweet.isReposted}
           />
         ) : (
           <Otherpost
@@ -33,6 +35,8 @@ export default function TweetFeed({ tweets, username }: TweetFeedProps) {
             authorAvatar={tweet.authorAvatar}
             likes={tweet.likes}
             isLiked={tweet.isLiked}
+            reposts={tweet.reposts}
+            isReposted={tweet.isReposted}
           />
         )
       ))}

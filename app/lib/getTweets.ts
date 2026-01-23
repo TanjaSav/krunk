@@ -17,14 +17,19 @@ export default async function getTweets() {
       tweets.map(async (tweet) => {
         const user = await users.findOne({ username: tweet.authorName });
         const likedBy = tweet.likedBy || [];
+        const repostedBy = tweet.repostedBy || [];
         const isLiked = username ? likedBy.includes(username) : false;
+        const isReposted = username ? repostedBy.includes(username) : false;
         
         return {
           ...tweet,
           authorAvatar: user?.profilePicture || tweet.authorAvatar || "/images/circle.png",
           likes: tweet.likes || 0,
           likedBy: likedBy,
-          isLiked: isLiked
+          isLiked: isLiked,
+          reposts: tweet.reposts || 0,
+          repostedBy: repostedBy,
+          isReposted: isReposted
         };
       })
     );
