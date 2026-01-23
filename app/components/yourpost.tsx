@@ -17,7 +17,7 @@ export default function Yourpost({
 
   return (
         <>
-        <div className="w-130 h-auto bg-black border border-[#727272] py-3 px-20 flex flex-col">
+        <div className="w-full bg-black border border-[#727272] py-3 px-4 sm:px-6 md:px-8 lg:px-12 flex flex-col">
             <div className="flex flex-row gap-2">
                 
                 {/* Author */}
@@ -67,7 +67,7 @@ export default function Yourpost({
             </div>
 
             {/* Reactions */}
-            <div className="flex w-full justify-between pl-12 pt-1.5">
+            <div className="flex w-full justify-between pl-4 sm:pl-6 md:pl-8 lg:pl-12 pt-1.5">
                 <div className="flex gap-1 items-center">
                     <img 
                         src="/images/comment.svg" 

@@ -6,7 +6,7 @@ interface TweetFeedProps {
 
 export default function TweetFeed({ tweets }: TweetFeedProps) {
   return (
-    <div className="flex flex-col space-y-4 relative">
+    <div>
       {tweets.map((tweet: any) => (
         <Yourpost
           key={tweet._id.toString()}
