@@ -10,10 +10,11 @@ export default async function Home() {
 
   return (
     <main>
+      <div className="h-22 md:h-0"></div>
       <Writepost />
       <TweetFeed tweets={tweets} />
-       <Navbar />
-       <Mobilenav />
+      <Navbar />
+      <Mobilenav />
     </main>
   );
 }

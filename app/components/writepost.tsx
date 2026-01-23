@@ -18,7 +18,7 @@ function WritePost() {
     const formData = {
       content: postContent,
       imageUrl: '', // Add image upload later
-      authorName: "Krunk",
+      authorName: "",
       authorAvatar: "/images/avatar.jpg",
       createdAt: new Date(),
     };
@@ -47,7 +47,7 @@ function WritePost() {
   };
 
   return (
-    <div className="border-[#313F4C] border px-12 py-5 m-4 font-normal w-2/3">
+    <div className="border-[#313F4C] border px-12 py-5 m-4 font-normal w-full md:w-2/3">
       <input
         type="text"
         placeholder="Hvað er að gerast?"

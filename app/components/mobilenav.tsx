@@ -4,25 +4,23 @@ export default function Mobilenav() {
     return (
         <>
             {/* Header */}
-            <header className="fixed top-0 left-0 w-full h-16 bg-black border-b border-[#727272] flex items-center md:hidden">
-                
+            <header className="fixed top-0 left-0 w-full h-22 bg-black border-b border-[#727272] flex justify-between items-center px-6 md:hidden">
                 <Image
                     src="/images/logo.svg" alt="Logo" width={47} height={50}
                     className="object-contain"
                 />
                 {/* Search input */}
-                <div className="relative w-full max-w-sm">
+                <div className="relative">
                     <input
                         type="text" 
                         placeholder="Leita"
-                        className="text-[#8B99A6] placeholder-[#8B99A6] w-50 h-6.25 pl-8 pr-3 rounded-[99px] bg-black border border-[#8B99A6] font-regular text-[16px] focus:outline-none"
+                        className="text-[#8B99A6] placeholder-[#8B99A6] w-75 h-7 px-8 rounded-full bg-black border border-[#8B99A6] font-regular text-[16px] focus:outline-none"
                     />
                     <Image
                         src="/images/search.svg" alt="Search icon" width={15} height={15} 
                         className="absolute left-2 top-1/2 transform -translate-y-1/2 color-[#8B99A6]"
                     />
                 </div>
-                
             </header>
 
             {/* Footer */}
