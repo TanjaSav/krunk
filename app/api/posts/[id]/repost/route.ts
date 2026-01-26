@@ -75,7 +75,7 @@ export async function POST(
     );
 
     let finalReposts: number;
-    if (typeof updatedPost.value?.reposts === 'number') {
+    if (updatedPost && typeof updatedPost.value?.reposts === 'number') {
       finalReposts = updatedPost.value.reposts;
     } else {
       finalReposts = isReposted ? Math.max(0, currentReposts - 1) : currentReposts + 1;

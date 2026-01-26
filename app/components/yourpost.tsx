@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 interface TweetProps {
   _id: string;
   content: string;
+  postId?: string;
   imageUrl?: string;
   createdAt: Date | string;
   authorName: string;
@@ -14,6 +15,7 @@ interface TweetProps {
   reposts?: number;
   isReposted?: boolean;
   dateAdded?: string;
+  onEdit?: () => void;
 }
 
 export default function Yourpost({ 
@@ -22,7 +24,8 @@ export default function Yourpost({
   imageUrl, 
   createdAt, 
   authorName, 
-  authorAvatar,
+  authorAvatar, 
+  onEdit,
   likes: initialLikes = 0,
   isLiked: initialIsLiked = false,
   reposts: initialReposts = 0,
@@ -174,7 +177,8 @@ export default function Yourpost({
                         <img 
                             src="/images/edit.svg" 
                             alt="edit" 
-                            className="w-3 h-3"/>
+                            className="w-3 h-3"
+                            onClick={onEdit}/>
                     </div>
                     
                     {/* Content */}
