@@ -162,7 +162,7 @@ export default function Yourpost({
         <>
         <div className="w-full bg-black border border-[#727272] py-3 px-4 sm:px-6 md:px-8 lg:px-12 flex flex-col">
             <div className="flex flex-row gap-2">
-              <RemoveButton postId={postId} />
+              
                 
                 {/* Author */}
                 <img 
@@ -184,6 +184,10 @@ export default function Yourpost({
                             Posted on {formattedDate || '...'}
                         </p>
                         </div>
+                        {/*Delete Button*/}
+                        <RemoveButton postId={postId} />
+                        
+                        {/* Edit Icon */}
                         <img 
                             src="/images/edit.svg" 
                             alt="edit" 
@@ -208,13 +212,6 @@ export default function Yourpost({
 
             {/* Reactions */}
             <div className="flex w-full justify-between pl-4 sm:pl-6 md:pl-8 lg:pl-12 pt-1.5">
-                <div className="flex gap-1 items-center">
-                    <img 
-                        src="/images/Heart.svg" 
-                        alt="like" 
-                        className="w-3.5 h-3.5"/>
-                    <p className="text-[#8B99A6] text-[11px]">1.3K</p>
-                </div>
                 <div className="flex gap-1 items-center">
                     <img 
                         src="/images/comment.svg" 
