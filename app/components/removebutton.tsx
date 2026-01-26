@@ -42,7 +42,7 @@ export default function RemoveButton({
 
   return (
     <button type="button" className={className} onClick={handleClick}>
-      <RiDeleteBin6Line size={24} className="text-white" />
+      <RiDeleteBin6Line size={16} className="text-gray-300" />
     </button>
   );
 }
