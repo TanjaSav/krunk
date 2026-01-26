@@ -2,6 +2,23 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+### Environment Setup
+
+1. Copy the example environment file:
+```bash
+cp .env.example .env.local
+```
+
+2. Configure your environment variables in `.env.local`:
+   - **NEXT_PUBLIC_RECAPTCHA_SITE_KEY**: Get your reCAPTCHA site key from [Google reCAPTCHA Admin](https://www.google.com/recaptcha/admin/create)
+     - For testing, you can use: `6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI`
+     - For production, you need a real key from Google
+   - **MONGODB_URI**: Your MongoDB connection string from [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+
+3. Restart the development server after updating `.env.local`
+
+### Running the Development Server
+
 First, run the development server:
 
 ```bash
