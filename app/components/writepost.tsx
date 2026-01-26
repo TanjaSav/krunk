@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { CldUploadWidget } from "next-cloudinary";
 
 interface WritePostProps {
   postId?: string;
@@ -22,6 +23,7 @@ function WritePost({
   onFinish,
 }: WritePostProps) {
   const [postContent, setPostContent] = useState("");
+  const[imageUrl, setImageUrl] = useState(initialImageUrl);
   const [username, setUsername] = useState<string | null>(null);
   const [profilePicture, setProfilePicture] =
     useState<string>("/images/circle.png");
@@ -58,10 +60,10 @@ function WritePost({
       alert("Vinsamlegast bíddu á meðan við staðfestum innskráningu");
       return;
     }
-
+//Sending data to database
     const formData = {
-      content: postContent,
-      imageUrl: "", // TODO: add image upload
+      content: postContent,//CONTENT
+      imageUrl: imageUrl, //IMAGE URL 
       authorName: username,
       authorAvatar: profilePicture,
       createdAt: new Date(),
@@ -85,6 +87,7 @@ function WritePost({
 
       if (data.success) {
         setPostContent("");
+        setImageUrl("");
         router.refresh();
         if (onFinish) onFinish();
       } else {
@@ -107,12 +110,29 @@ function WritePost({
           onChange={handleChange}
         />
         <div className="border-t border-[#313F4C] pt-4 flex justify-between items-center">
-          <Image
-            src="/images/addimageicon.svg"
-            alt="Add image"
-            width={24}
-            height={24}
-          />
+ 
+          {/* Widget Cloudinary Upload */}
+          <CldUploadWidget
+            uploadPreset="twitter_posts"  //DATABASE IN CLOUDINARY
+            onSuccess={(result: any) => {
+              setImageUrl(result.info.secure_url);
+            }}
+          >
+            {({ open }) => (
+              <button type="button" onClick={() => open()}>
+                <Image
+                  src="/images/addimageicon.svg"
+                  alt="Add image"
+                  width={24}
+                  height={24}
+                  className="cursor-pointer"
+                />
+              </button>
+            )}
+          </CldUploadWidget>
+
+   <div className="border-t border-[#313F4C] pt-4 flex justify-between items-center">
+
           <button
             className={
               postContent
@@ -124,9 +144,11 @@ function WritePost({
             disabled={!postContent}
           >
             {postId ? "Save" : "Post"}
+
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 }
