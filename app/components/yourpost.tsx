@@ -45,10 +45,11 @@ export default function Yourpost({
                             })}
                         </p>
                         </div>
+                        {/* Edit Icon */}
                         <img 
                             src="/images/edit.svg" 
                             alt="edit" 
-                            className="w-3 h-3"/>
+                            className="w-4 h-4 hover:cursor-pointer"/>
                     </div>
                     
                     {/* Content */}
@@ -70,6 +71,13 @@ export default function Yourpost({
             <div className="flex w-full justify-between pl-4 sm:pl-6 md:pl-8 lg:pl-12 pt-1.5">
                 <div className="flex gap-1 items-center">
                     <img 
+                        src="/images/Heart.svg" 
+                        alt="like" 
+                        className="w-3.5 h-3.5"/>
+                    <p className="text-[#8B99A6] text-[11px]">1.3K</p>
+                </div>
+                <div className="flex gap-1 items-center">
+                    <img 
                         src="/images/comment.svg" 
                         alt="comment" 
                         className="w-3.5 h-3.5"/>
@@ -79,13 +87,6 @@ export default function Yourpost({
                     <img 
                         src="/images/repost.svg" 
                         alt="repost" 
-                        className="w-3.5 h-3.5"/>
-                    <p className="text-[#8B99A6] text-[11px]">1.3K</p>
-                </div>
-                <div className="flex gap-1 items-center">
-                    <img 
-                        src="/images/Heart.svg" 
-                        alt="like" 
                         className="w-3.5 h-3.5"/>
                     <p className="text-[#8B99A6] text-[11px]">1.3K</p>
                 </div>

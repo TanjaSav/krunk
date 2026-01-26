@@ -22,7 +22,7 @@ export default function Otherpost({
                 
                 {/* Author */}
                 <img 
-                    src={authorAvatar} 
+                    src={authorAvatar || undefined} 
                     alt={authorName}
                     className="w-10 h-10 rounded-full object-cover"
                 />
@@ -67,6 +67,13 @@ export default function Otherpost({
             <div className="flex w-full justify-between pl-4 sm:pl-6 md:pl-8 lg:pl-12 pt-1.5">
                 <div className="flex gap-1 items-center">
                     <img 
+                        src="/images/Heart.svg" 
+                        alt="like" 
+                        className="w-3.5 h-3.5"/>
+                    <p className="text-[#8B99A6] text-[11px]">1.3K</p>
+                </div>
+                <div className="flex gap-1 items-center">
+                    <img 
                         src="/images/comment.svg" 
                         alt="comment" 
                         className="w-3.5 h-3.5"/>
@@ -76,13 +83,6 @@ export default function Otherpost({
                     <img 
                         src="/images/repost.svg" 
                         alt="repost" 
-                        className="w-3.5 h-3.5"/>
-                    <p className="text-[#8B99A6] text-[11px]">1.3K</p>
-                </div>
-                <div className="flex gap-1 items-center">
-                    <img 
-                        src="/images/Heart.svg" 
-                        alt="like" 
                         className="w-3.5 h-3.5"/>
                     <p className="text-[#8B99A6] text-[11px]">1.3K</p>
                 </div>
