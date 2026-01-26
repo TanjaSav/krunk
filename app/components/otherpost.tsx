@@ -181,42 +181,6 @@ export default function Otherpost({
               {/* Removed Edit Icon for Otherpost */}
             </div>
 
-            {/* Reactions */}
-            <div className="flex w-full justify-between pl-4 sm:pl-6 md:pl-8 lg:pl-12 pt-1.5">
-                <div className="flex gap-1 items-center">
-                    <img 
-                        src="/images/comment.svg" 
-                        alt="comment" 
-                        className="w-3.5 h-3.5"/>
-                    <p className="text-[#8B99A6] text-[11px]">95</p>
-                </div>
-                <button
-                  onClick={handleRepost}
-                  disabled={isReposting}
-                  className="flex gap-1 items-center cursor-pointer hover:opacity-80 transition-opacity disabled:opacity-50"
-                >
-                    <img 
-                        src={isReposted ? "/images/profile/ReTweetGreen.svg" : "/images/repost.svg"} 
-                        alt="repost" 
-                        className="w-3.5 h-3.5"/>
-                    <p className={`text-[11px] ${isReposted ? 'text-[#00BA7C]' : 'text-[#8B99A6]'}`}>
-                      {formatReposts(reposts)}
-                    </p>
-                </button>
-                <button
-                  onClick={handleLike}
-                  disabled={isUpdating}
-                  className="flex gap-1 items-center cursor-pointer hover:opacity-80 transition-opacity disabled:opacity-50"
-                >
-                    <img 
-                        src={isLiked ? "/images/profile/LikedHeart.svg" : "/images/Heart.svg"} 
-                        alt="like" 
-                        className="w-3.5 h-3.5"/>
-                    <p className={`text-[11px] ${isLiked ? 'text-red-500' : 'text-[#8B99A6]'}`}>
-                      {formatLikes(likes)}
-                    </p>
-                </button>
-            </div>
             {/* Content */}
             <p className="text-white text-sm">{content}</p>
             {/* Image */}
@@ -232,10 +196,6 @@ export default function Otherpost({
 
         {/* Reactions */}
         <div className="flex w-full justify-between pl-4 sm:pl-6 md:pl-8 lg:pl-12 pt-1.5">
-          <div className="flex gap-1 items-center">
-            <img src="/images/Heart.svg" alt="like" className="w-3.5 h-3.5" />
-            <p className="text-[#8B99A6] text-[11px]">1.3K</p>
-          </div>
           <div className="flex gap-1 items-center">
             <img
               src="/images/comment.svg"

@@ -162,7 +162,7 @@ export default function Yourpost({
         <>
         <div className="w-full bg-black border border-[#727272] py-3 px-4 sm:px-6 md:px-8 lg:px-12 flex flex-col">
             <div className="flex flex-row gap-2">
-              <RemoveButton postId={postId} />
+              
                 
                 {/* Author */}
                 <img 
@@ -184,6 +184,10 @@ export default function Yourpost({
                             Posted on {formattedDate || '...'}
                         </p>
                         </div>
+                        {/*Delete Button*/}
+                        <RemoveButton postId={postId} />
+                        
+                        {/* Edit Icon */}
                         <img 
                             src="/images/edit.svg" 
                             alt="edit" 
