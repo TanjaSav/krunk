@@ -10,7 +10,20 @@ interface CaptchaProps {
 const Captcha = ({ onChange, onExpired }: CaptchaProps) => {
   const [error, setError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
-  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '';
+  
+  // Use test key for localhost, real key for production
+  const isLocalhost = typeof window !== 'undefined' && 
+    (window.location.hostname === 'localhost' || 
+     window.location.hostname === '127.0.0.1' ||
+     window.location.hostname.startsWith('192.168.'));
+  
+  const testKey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'; // Google's test key (always passes)
+  const envKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '';
+  
+  // Use test key for localhost, or if no env key is set (fallback), otherwise use real key
+  const siteKey = isLocalhost || !envKey
+    ? testKey 
+    : envKey;
 
   useEffect(() => {
     setMounted(true);
