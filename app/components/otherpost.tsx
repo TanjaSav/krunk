@@ -70,9 +70,19 @@ export default function Otherpost({
       const response = await fetch(`/api/posts/${_id}/like`, {
         method: "POST",
       });
-
+      
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await response.text();
+        console.error('Non-JSON response:', text);
+        setLikes(previousLikes);
+        setIsLiked(previousIsLiked);
+        alert('Villa við að líka pósti: Óvænt svar frá netþjóni (ekki JSON)');
+        return;
+      }
+      
       const result = await response.json();
-
+      
       if (result.success) {
         if (typeof result.likes === "number" && result.likes >= 0) {
           setLikes(result.likes);
@@ -81,13 +91,13 @@ export default function Otherpost({
       } else {
         setLikes(previousLikes);
         setIsLiked(previousIsLiked);
-        alert("Villa við að líka pósti: " + result.error);
+        alert("Villa við að líka pósti: " + (result.error || 'Óþekkt villa'));
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error liking post:", error);
       setLikes(previousLikes);
       setIsLiked(previousIsLiked);
-      alert("Villa við að líka pósti");
+      alert("Villa við að líka pósti: " + (error.message || 'Óþekkt villa'));
     } finally {
       setIsUpdating(false);
     }
