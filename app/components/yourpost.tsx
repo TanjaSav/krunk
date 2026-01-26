@@ -1,22 +1,153 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+
 interface TweetProps {
+  _id: string;
   content: string;
   postId?: string;
   imageUrl?: string;
   createdAt: Date | string;
   authorName: string;
   authorAvatar: string;
+  likes?: number;
+  isLiked?: boolean;
+  reposts?: number;
+  isReposted?: boolean;
   dateAdded?: string;
   onEdit?: () => void;
 }
 
 export default function Yourpost({ 
+  _id,
   content, 
   imageUrl, 
   createdAt, 
   authorName, 
   authorAvatar, 
-  onEdit, 
+  onEdit,
+  likes: initialLikes = 0,
+  isLiked: initialIsLiked = false,
+  reposts: initialReposts = 0,
+  isReposted: initialIsReposted = false
 }: TweetProps) {
+  const [likes, setLikes] = useState(initialLikes || 0);
+  const [isLiked, setIsLiked] = useState(initialIsLiked || false);
+  const [reposts, setReposts] = useState(initialReposts || 0);
+  const [isReposted, setIsReposted] = useState(initialIsReposted || false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isReposting, setIsReposting] = useState(false);
+  const [formattedDate, setFormattedDate] = useState('');
+
+  useEffect(() => {
+    setLikes(initialLikes || 0);
+    setIsLiked(initialIsLiked || false);
+    setReposts(initialReposts || 0);
+    setIsReposted(initialIsReposted || false);
+  }, [initialLikes, initialIsLiked, initialReposts, initialIsReposted]);
+
+  useEffect(() => {
+    setFormattedDate(
+      new Date(createdAt).toLocaleString('is-IS', { 
+        month: 'short', 
+        day: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      })
+    );
+  }, [createdAt]);
+
+  const handleLike = async () => {
+    if (isUpdating) return;
+    
+    const previousLikes = likes || 0;
+    const previousIsLiked = isLiked;
+    const newLikes = previousIsLiked ? previousLikes - 1 : previousLikes + 1;
+    const newIsLiked = !previousIsLiked;
+    
+    setIsUpdating(true);
+    setLikes(newLikes);
+    setIsLiked(newIsLiked);
+    
+    try {
+      const response = await fetch(`/api/posts/${_id}/like`, {
+        method: 'POST',
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        if (typeof result.likes === 'number' && result.likes >= 0) {
+          setLikes(result.likes);
+        }
+        setIsLiked(result.isLiked);
+      } else {
+        setLikes(previousLikes);
+        setIsLiked(previousIsLiked);
+        alert('Villa við að líka pósti: ' + result.error);
+      }
+    } catch (error) {
+      console.error('Error liking post:', error);
+      setLikes(previousLikes);
+      setIsLiked(previousIsLiked);
+      alert('Villa við að líka pósti');
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleRepost = async () => {
+    if (isReposting) return;
+    
+    const previousReposts = reposts || 0;
+    const previousIsReposted = isReposted;
+    const newReposts = previousIsReposted ? previousReposts - 1 : previousReposts + 1;
+    const newIsReposted = !previousIsReposted;
+    
+    setIsReposting(true);
+    setReposts(newReposts);
+    setIsReposted(newIsReposted);
+    
+    try {
+      const response = await fetch(`/api/posts/${_id}/repost`, {
+        method: 'POST',
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        if (typeof result.reposts === 'number' && result.reposts >= 0) {
+          setReposts(result.reposts);
+        }
+        setIsReposted(result.isReposted);
+      } else {
+        setReposts(previousReposts);
+        setIsReposted(previousIsReposted);
+        alert('Villa við að endurtvíta: ' + result.error);
+      }
+    } catch (error) {
+      console.error('Error reposting:', error);
+      setReposts(previousReposts);
+      setIsReposted(previousIsReposted);
+      alert('Villa við að endurtvíta');
+    } finally {
+      setIsReposting(false);
+    }
+  };
+
+  const formatLikes = (count: number) => {
+    if (count >= 1000) {
+      return (count / 1000).toFixed(1) + 'K';
+    }
+    return count.toString();
+  };
+
+  const formatReposts = (count: number) => {
+    if (count >= 1000) {
+      return (count / 1000).toFixed(1) + 'K';
+    }
+    return count.toString();
+  };
 
   return (
         <>
@@ -40,12 +171,7 @@ export default function Yourpost({
                         </p>
                         {/* Timestamp */}
                         <p className="text-[#8B99A6] text-[11px] flex items-center pl-2">
-                            Posted on {new Date(createdAt).toLocaleString('is-IS', { 
-                                month: 'short', 
-                                day: 'numeric', 
-                                hour: '2-digit', 
-                                minute: '2-digit' 
-                            })}
+                            Posted on {formattedDate || '...'}
                         </p>
                         </div>
                         <img 
@@ -79,20 +205,32 @@ export default function Yourpost({
                         className="w-3.5 h-3.5"/>
                     <p className="text-[#8B99A6] text-[11px]">95</p>
                 </div>
-                <div className="flex gap-1 items-center">
+                <button
+                  onClick={handleRepost}
+                  disabled={isReposting}
+                  className="flex gap-1 items-center cursor-pointer hover:opacity-80 transition-opacity disabled:opacity-50"
+                >
                     <img 
-                        src="/images/repost.svg" 
+                        src={isReposted ? "/images/profile/ReTweetGreen.svg" : "/images/repost.svg"} 
                         alt="repost" 
                         className="w-3.5 h-3.5"/>
-                    <p className="text-[#8B99A6] text-[11px]">1.3K</p>
-                </div>
-                <div className="flex gap-1 items-center">
+                    <p className={`text-[11px] ${isReposted ? 'text-[#00BA7C]' : 'text-[#8B99A6]'}`}>
+                      {formatReposts(reposts)}
+                    </p>
+                </button>
+                <button
+                  onClick={handleLike}
+                  disabled={isUpdating}
+                  className="flex gap-1 items-center cursor-pointer hover:opacity-80 transition-opacity disabled:opacity-50"
+                >
                     <img 
-                        src="/images/Heart.svg" 
+                        src={isLiked ? "/images/profile/LikedHeart.svg" : "/images/Heart.svg"} 
                         alt="like" 
                         className="w-3.5 h-3.5"/>
-                    <p className="text-[#8B99A6] text-[11px]">1.3K</p>
-                </div>
+                    <p className={`text-[11px] ${isLiked ? 'text-red-500' : 'text-[#8B99A6]'}`}>
+                      {formatLikes(likes)}
+                    </p>
+                </button>
             </div>
         </div>
         </>

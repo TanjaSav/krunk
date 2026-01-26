@@ -47,21 +47,31 @@ export default function TweetFeed({ tweets, username }: TweetFeedProps) {
           <Yourpost
             key={tweet._id.toString()}
             postId={tweet._id.toString()}
+            _id={tweet._id.toString()}
             content={tweet.content}
             imageUrl={tweet.imageUrl}
             createdAt={tweet.createdAt}
             authorName={tweet.authorName}
             authorAvatar={tweet.authorAvatar}
             onEdit={() => startEditing(tweet)}
+            likes={tweet.likes}
+            isLiked={tweet.isLiked}
+            reposts={tweet.reposts}
+            isReposted={tweet.isReposted}
           />
         ) : (
           <Otherpost
             key={tweet._id.toString()}
+            _id={tweet._id.toString()}
             content={tweet.content}
             imageUrl={tweet.imageUrl}
             createdAt={tweet.createdAt}
             authorName={tweet.authorName}
             authorAvatar={tweet.authorAvatar}
+            likes={tweet.likes}
+            isLiked={tweet.isLiked}
+            reposts={tweet.reposts}
+            isReposted={tweet.isReposted}
           />
         )
       ))}

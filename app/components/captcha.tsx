@@ -15,7 +15,7 @@ const Captcha = ({ onChange, onExpired }: CaptchaProps) => {
   useEffect(() => {
     setMounted(true);
     if (!siteKey || siteKey === 'your-site-key-here') {
-      setError('reCAPTCHA site key not configured. Please add NEXT_PUBLIC_RECAPTCHA_SITE_KEY to your .env.local file');
+      setError('reCAPTCHA site key not configured. Please add NEXT_PUBLIC_RECAPTCHA_SITE_KEY to your .env.local file (local) or Vercel environment variables (production)');
     }
   }, [siteKey]);
 
@@ -31,7 +31,7 @@ const Captcha = ({ onChange, onExpired }: CaptchaProps) => {
     return (
       <div className="flex flex-col items-center gap-2 p-4 border border-red-500 rounded-lg bg-red-50">
         <p className="text-red-600 text-sm text-center">
-          reCAPTCHA is not configured. Please add your site key to .env.local
+          reCAPTCHA is not configured. Please add NEXT_PUBLIC_RECAPTCHA_SITE_KEY to your .env.local file (local) or Vercel environment variables (production)
         </p>
         <p className="text-xs text-gray-600 text-center">
           Get your key from: <a href="https://www.google.com/recaptcha/admin/create" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Google reCAPTCHA</a>
