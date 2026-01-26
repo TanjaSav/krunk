@@ -25,22 +25,29 @@ export async function POST(request: Request) {
     const client = await clientPromise;
     const database = client.db('twitter');
     const users = database.collection('users');
+    const posts = database.collection('posts');
 
-    const result = await users.updateOne(
+    const userResult = await users.updateOne(
       { username },
       { $set: { profilePicture } }
     );
 
-    if (result.matchedCount === 0) {
+    if (userResult.matchedCount === 0) {
       return NextResponse.json(
         { success: false, error: 'User not found' },
         { status: 404 }
       );
     }
 
+    const postsResult = await posts.updateMany(
+      { authorName: username },
+      { $set: { authorAvatar: profilePicture } }
+    );
+
     return NextResponse.json({ 
       success: true,
-      profilePicture 
+      profilePicture,
+      postsUpdated: postsResult.modifiedCount
     });
   } catch (error: any) {
     console.error('Error updating profile picture:', error);

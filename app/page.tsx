@@ -1,5 +1,4 @@
 import Navbar from "./components/navbar";
-import Writepost from "./components/writepost";
 import TweetFeed from "./components/tweetfeed";
 import getTweets  from "./lib/getTweets";
 import Mobilenav from "./components/mobilenav";
@@ -15,6 +14,14 @@ export default async function Home() {
   }
 
   const tweets = await getTweets();
+  
+  // Serialize the data to plain objects
+  const serializedTweets = tweets.map((tweet: any) => ({
+    ...tweet,
+    _id: tweet._id.toString(),
+    createdAt: tweet.createdAt.toISOString(),
+    updatedAt: tweet.updatedAt instanceof Date ? tweet.updatedAt.toISOString() : tweet.updatedAt,
+  }));
 
    return (
     <div className="flex" >
@@ -23,8 +30,7 @@ export default async function Home() {
       </aside>
       <main className="flex flex-col w-full">
         <div className="w-full sm:max-w-sm md:max-w-md">
-          <Writepost />
-          <TweetFeed tweets={tweets} username={username} />
+          <TweetFeed tweets={serializedTweets} username={username} />
           <Mobilenav />
         </div>
       </main>
