@@ -1,10 +1,12 @@
 interface TweetProps {
   content: string;
+  postId?: string;
   imageUrl?: string;
   createdAt: Date | string;
   authorName: string;
   authorAvatar: string;
   dateAdded?: string;
+  onEdit?: () => void;
 }
 
 export default function Yourpost({ 
@@ -12,7 +14,8 @@ export default function Yourpost({
   imageUrl, 
   createdAt, 
   authorName, 
-  authorAvatar 
+  authorAvatar, 
+  onEdit, 
 }: TweetProps) {
 
   return (
@@ -48,7 +51,8 @@ export default function Yourpost({
                         <img 
                             src="/images/edit.svg" 
                             alt="edit" 
-                            className="w-3 h-3"/>
+                            className="w-3 h-3"
+                            onClick={onEdit}/>
                     </div>
                     
                     {/* Content */}

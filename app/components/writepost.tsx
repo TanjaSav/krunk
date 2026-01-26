@@ -4,11 +4,30 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-function WritePost() {
+
+  interface WritePostProps {
+ postId?: string;
+  initialContent?: string;
+  initialImageUrl?: string;
+  initialAuthorName?: string;
+  initialAuthorAvatar?: string;
+  onFinish?: () => void;
+}
+
+function WritePost({
+  postId,
+  initialContent = "",
+  initialImageUrl = "",
+  initialAuthorName = "óli",
+  initialAuthorAvatar = "/images/avatar.png",
+  onFinish,
+}: WritePostProps) 
+{
   const [postContent, setPostContent] = useState("");
   const [username, setUsername] = useState<string | null>(null);
   const [profilePicture, setProfilePicture] = useState<string>('/images/circle.png');
   const router = useRouter();
+
 
   useEffect(() => {
     fetch('/api/auth/me')
@@ -23,6 +42,12 @@ function WritePost() {
         console.error('Error fetching user:', err);
       });
   }, []);
+
+  useEffect(() => {
+  if (postId && initialContent) {
+    setPostContent(initialContent);
+  }
+}, [postId, initialContent]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPostContent(e.target.value);
@@ -42,10 +67,15 @@ function WritePost() {
       authorName: username,
       authorAvatar: profilePicture,
       createdAt: new Date(),
+      updatedAt: new Date(),
     };
-   try {
-      const response = await fetch('/api/submit', {
-        method: 'POST',
+
+    const method = postId ? "PUT" : "POST";
+    const url = postId ? `/api/posts/${postId}` : "/api/submit";
+
+    try {
+      const response = await fetch(url, {
+        method: method,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -53,10 +83,12 @@ function WritePost() {
       });
 
       const data = await response.json();
+      console.log("Response:", data); 
       
       if (data.success) {
         setPostContent('');
         router.refresh();
+        if (onFinish) onFinish();
       } else {
         alert('Error: ' + data.error);
       }
@@ -93,12 +125,13 @@ function WritePost() {
           onClick={handleSubmit}
           disabled={!postContent}
         >
-          Post
+        {postId ? "Save" : "Post"}
         </button>
         </div>
       </div>
     </div>
   );
 }
+
 
 export default WritePost;
