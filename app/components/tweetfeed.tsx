@@ -42,7 +42,7 @@ export default function TweetFeed({ tweets, username }: TweetFeedProps) {
       )}
 
       {/* Show tweets */}
-      {tweets.map((tweet: any) => (
+      {tweets.map((tweet: any) =>
         tweet.authorName === username ? (
           <Yourpost
             key={tweet._id.toString()}
@@ -73,8 +73,8 @@ export default function TweetFeed({ tweets, username }: TweetFeedProps) {
             reposts={tweet.reposts}
             isReposted={tweet.isReposted}
           />
-        )
-      ))}
+        ),
+      )}
     </div>
   );
 }
