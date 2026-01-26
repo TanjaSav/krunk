@@ -5,7 +5,7 @@ import { ObjectId } from 'mongodb';
 
 export async function POST(
   request: Request,
-  { params }: { params: Promise<{ postId: string }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const username = await getSession();
@@ -16,8 +16,35 @@ export async function POST(
       );
     }
 
-    const { postId } = await params;
-    if (!postId) {
+    // Extract ID from URL (similar to how PUT route does it)
+    // URL format: http://localhost:3000/api/posts/{id}/repost
+    let id: string | undefined;
+    try {
+      // Try params first
+      const resolvedParams = await params;
+      if (resolvedParams?.id) {
+        id = resolvedParams.id;
+      }
+    } catch (error) {
+      console.error('Error accessing params:', error);
+    }
+
+    // Fallback: extract from URL path
+    if (!id) {
+      try {
+        const url = new URL(request.url);
+        const pathParts = url.pathname.split('/').filter(Boolean); // Remove empty strings
+        // pathParts should be: ['api', 'posts', '{id}', 'repost']
+        const postsIndex = pathParts.indexOf('posts');
+        if (postsIndex >= 0 && postsIndex + 1 < pathParts.length) {
+          id = pathParts[postsIndex + 1];
+        }
+      } catch (error) {
+        console.error('Error parsing URL:', error);
+      }
+    }
+
+    if (!id) {
       return NextResponse.json(
         { success: false, error: 'Post ID is required' },
         { status: 400 }
@@ -30,7 +57,7 @@ export async function POST(
 
     let objectId;
     try {
-      objectId = new ObjectId(postId);
+      objectId = new ObjectId(id);
     } catch (error) {
       return NextResponse.json(
         { success: false, error: 'Invalid post ID' },
