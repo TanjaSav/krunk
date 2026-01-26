@@ -76,6 +76,13 @@ export default function Yourpost({
         method: 'POST',
       });
       
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await response.text();
+        console.error('Non-JSON response:', text);
+        throw new Error(`Expected JSON but got ${contentType}`);
+      }
+      
       const result = await response.json();
       
       if (result.success) {
