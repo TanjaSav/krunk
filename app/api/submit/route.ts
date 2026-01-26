@@ -20,7 +20,6 @@ export async function POST(request: Request) {
     const client = await clientPromise;
     const database = client.db("twitter");
     const collection = database.collection("posts");
-
     const result = await collection.insertOne({
       ...body,
       authorName: username,

@@ -1,6 +1,6 @@
 import Navbar from "./components/navbar";
 import TweetFeed from "./components/tweetfeed";
-import getTweets from "./lib/getTweets";
+import getTweets  from "./lib/getTweets";
 import Mobilenav from "./components/mobilenav";
 import { getSession } from "./lib/auth";
 import { redirect } from "next/navigation";

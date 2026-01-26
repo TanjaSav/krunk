@@ -13,7 +13,6 @@ export default async function getTweets() {
       .toArray();
 
     const users = database.collection("users");
-
     const tweetsWithCurrentAvatars = await Promise.all(
       tweets.map(async (tweet) => {
         const user = await users.findOne({ username: tweet.authorName });
