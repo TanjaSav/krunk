@@ -41,7 +41,7 @@ export default function Navbar() {
     }
   };
   return (
-    <nav className="bg-black text-white w-95 h-screen pt-7 pl-18 pr-6 pb-8 hidden md:flex flex-col justify-between border-r border-[#8B99A6]">
+    <nav className="bg-black text-white w-95 h-screen pt-7 pl-18 pr-6 pb-8 hidden md:flex flex-col justify-between border-r border-[#2F3336]">
       <div>
         <div className="flex items-end gap-4 h-6.25 mt-7 mb-18">
           {/* Logo */}
