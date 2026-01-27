@@ -41,7 +41,11 @@ export default function RemoveButton({
   };
 
   return (
-    <button type="button" className={className} onClick={handleClick}>
+    <button
+      type="button"
+      className={`cursor-pointer hover:opacity-80 transition-opacity disabled:opacity-50 ${className}`}
+      onClick={handleClick}
+    >
       <RiDeleteBin6Line size={16} className="text-gray-300" />
     </button>
   );
