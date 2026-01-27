@@ -19,13 +19,12 @@ export async function POST(request: Request) {
     // Sanitize and validate content
     const sanitizedContent = body.content?.trim() || "";
     
-    if (!sanitizedContent || sanitizedContent.length === 0) {
-      return NextResponse.json(
-        { success: false, error: "Post content is required and cannot be empty" },
-        { status: 400 }
-      );
-    }
-
+ if ((!sanitizedContent || sanitizedContent.length === 0) && !body.imageUrl) {
+  return NextResponse.json(
+    { success: false, error: "Post content or image is required" },
+    { status: 400 }
+  );
+}
     // Validate content length (prevent extremely long posts)
     if (sanitizedContent.length > 10000) {
       return NextResponse.json(
