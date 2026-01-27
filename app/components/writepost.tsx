@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { CldUploadWidget } from "next-cloudinary";
 
 interface WritePostProps {
   postId?: string;
@@ -22,6 +23,7 @@ function WritePost({
   onFinish,
 }: WritePostProps) {
   const [postContent, setPostContent] = useState("");
+  const[imageUrl, setImageUrl] = useState(initialImageUrl);
   const [username, setUsername] = useState<string | null>(null);
   const [profilePicture, setProfilePicture] =
     useState<string>("/images/circle.png");
@@ -58,10 +60,10 @@ function WritePost({
       alert("Vinsamlegast bíddu á meðan við staðfestum innskráningu");
       return;
     }
-
+//Sending data to database
     const formData = {
-      content: postContent,
-      imageUrl: "", // TODO: add image upload
+      content: postContent,//CONTENT
+      imageUrl: imageUrl, //IMAGE URL 
       authorName: username,
       authorAvatar: profilePicture,
       createdAt: new Date(),
@@ -85,6 +87,7 @@ function WritePost({
 
       if (data.success) {
         setPostContent("");
+        setImageUrl("");
         router.refresh();
         if (onFinish) onFinish();
       } else {
@@ -107,26 +110,64 @@ function WritePost({
           onChange={handleChange}
         />
         <div className="border-t border-[#313F4C] pt-4 flex justify-between items-center">
-          <Image
-            src="/images/addimageicon.svg"
-            alt="Add image"
-            width={24}
-            height={24}
-          />
+          
+             {/* Image preview */}
+        {imageUrl && imageUrl.trim() !== "" && (
+          <div className="relative mb-4">
+            <img
+              src={imageUrl}
+              alt="Preview"
+              className="rounded-2xl max-w-full"
+            />
+            {/* Remove buttons */}
+            <button
+              type="button"
+              onClick={() => setImageUrl("")}
+              className="absolute top-2 right-2 bg-black/70 text-white rounded-full p-2 hover:bg-black/90"
+            >
+              ✕
+            </button>
+          </div>
+        )}
+ 
+          {/* Widget Cloudinary Upload */}
+          <CldUploadWidget
+            uploadPreset="twitter_posts"  //DATABASE IN CLOUDINARY
+            onSuccess={(result: any) => {
+              setImageUrl(result.info.secure_url);
+            }}
+          >
+            {({ open }) => (
+              <button type="button" onClick={() => open()}>
+                <Image
+                  src="/images/addimageicon.svg"
+                  alt="Add image"
+                  width={24}
+                  height={24}
+                  className="cursor-pointer"
+                />
+              </button>
+            )}
+          </CldUploadWidget>
+
+   <div className="pt-4 flex justify-between items-center">
+
           <button
             className={
               postContent
-                ? "border-blue-600 border-2 px-4 py-2 bg-blue-600 rounded-3xl text-white"
-                : "border-blue-400 text-white border-2 bg-blue-400 px-4 py-2 rounded-3xl"
+                ? "border-[#0D99FF] border-2 px-4 py-2 bg-[#0D99FF] rounded-3xl text-white hover:bg-[#0B87E0] hover:border-[#0B87E0] transition"
+                : "border-[#5BADE4] text-white border-2 bg-[#5BADE4] px-4 py-2 rounded-3xl"
             }
             type="button"
             onClick={handleSubmit}
             disabled={!postContent}
           >
             {postId ? "Save" : "Post"}
+
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 }

@@ -70,19 +70,19 @@ export default function Otherpost({
       const response = await fetch(`/api/posts/${_id}/like`, {
         method: "POST",
       });
-      
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
+
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
         const text = await response.text();
-        console.error('Non-JSON response:', text);
+        console.error("Non-JSON response:", text);
         setLikes(previousLikes);
         setIsLiked(previousIsLiked);
-        alert('Villa við að líka pósti: Óvænt svar frá netþjóni (ekki JSON)');
+        alert("Villa við að líka pósti: Óvænt svar frá netþjóni (ekki JSON)");
         return;
       }
-      
+
       const result = await response.json();
-      
+
       if (result.success) {
         if (typeof result.likes === "number" && result.likes >= 0) {
           setLikes(result.likes);
@@ -91,13 +91,13 @@ export default function Otherpost({
       } else {
         setLikes(previousLikes);
         setIsLiked(previousIsLiked);
-        alert("Villa við að líka pósti: " + (result.error || 'Óþekkt villa'));
+        alert("Villa við að líka pósti: " + (result.error || "Óþekkt villa"));
       }
     } catch (error: any) {
       console.error("Error liking post:", error);
       setLikes(previousLikes);
       setIsLiked(previousIsLiked);
-      alert("Villa við að líka pósti: " + (error.message || 'Óþekkt villa'));
+      alert("Villa við að líka pósti: " + (error.message || "Óþekkt villa"));
     } finally {
       setIsUpdating(false);
     }
@@ -160,7 +160,7 @@ export default function Otherpost({
 
   return (
     <>
-      <div className="w-full bg-black border border-[#727272] py-3 px-4 sm:px-6 md:px-8 lg:px-12 flex flex-col">
+      <div className="w-full bg-black border border-[#2F3336] py-3 px-4 sm:px-6 md:px-8 lg:px-12 flex flex-col">
         <div className="flex flex-row gap-2">
           {/* Author */}
           <img
@@ -197,10 +197,6 @@ export default function Otherpost({
         {/* Reactions */}
         <div className="flex w-full justify-between pl-4 sm:pl-6 md:pl-8 lg:pl-12 pt-1.5">
           <div className="flex gap-1 items-center">
-            <img src="/images/Heart.svg" alt="like" className="w-3.5 h-3.5" />
-            <p className="text-[#8B99A6] text-[11px]">1.3K</p>
-          </div>
-          <div className="flex gap-1 items-center">
             <img
               src="/images/comment.svg"
               alt="comment"
@@ -235,7 +231,7 @@ export default function Otherpost({
           >
             <img
               src={
-                isLiked ? "/images/profile/LikedHeart.svg" : "/images/Heart.svg"
+                isLiked ? "/images/profile/LikedHeart.svg" : "/images/heart.svg"
               }
               alt="like"
               className="w-3.5 h-3.5"
