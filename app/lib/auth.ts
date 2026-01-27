@@ -24,6 +24,7 @@ export async function verifyPassword(password: string, hashedPassword: string): 
  */
 export async function verifyRecaptcha(token: string | null | undefined): Promise<boolean> {
   if (!token) {
+    console.error('reCAPTCHA: No token provided');
     return false;
   }
 
@@ -51,7 +52,17 @@ export async function verifyRecaptcha(token: string | null | undefined): Promise
 
     const data = await response.json();
     
-    // Google returns { success: true/false, ... }
+    // Log the response for debugging (remove sensitive data in production)
+    if (!data.success) {
+      console.error('reCAPTCHA verification failed:', {
+        success: data.success,
+        'error-codes': data['error-codes'],
+        // Don't log the full token for security
+        tokenLength: token?.length,
+      });
+    }
+    
+    // Google returns { success: true/false, 'error-codes': [...] }
     return data.success === true;
   } catch (error) {
     console.error('reCAPTCHA verification error:', error);
