@@ -76,6 +76,8 @@ export default function Navbar() {
             <Image src="/images/home.svg" alt="Heim" width={20} height={20} />
             <span className="text-poppins text-[16] font-regular">Heim</span>
           </li>
+
+          {/* Notifications */}
           <li className="flex items-center gap-4">
             <Image
               src="/images/notifications.svg"
@@ -87,6 +89,7 @@ export default function Navbar() {
               Tilkynningar
             </span>
           </li>
+
           <li
             className="flex items-center gap-4 cursor-pointer hover:opacity-80"
             onClick={handleLogout}

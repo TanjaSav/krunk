@@ -47,13 +47,15 @@ export default function Mobilenav() {
                         alt="Heim" width={24} height={24}
                     />
                     </li>
-                    <li className="">
+
+                    <li>
                     <Image
                         src="/images/notifications.svg" 
                         alt="Tilkynningar" width={24} height={24}
                     />
                     </li>
-                    <li className="">
+
+                    <li>
                     <Image src="/images/logout.svg" 
                         alt="Skrá út" width={24} height={24} 
                     />
