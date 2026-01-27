@@ -6,6 +6,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { username, password, captchaToken } = body;
 
+    // 1. Validate required fields
     if (!username || !password) {
       return NextResponse.json(
         { success: false, error: 'Username and password are required' },
@@ -20,7 +21,19 @@ export async function POST(request: Request) {
       );
     }
 
-    const user = await getUserByUsername(username);
+    // 2. Sanitize username input
+    const sanitizedUsername = username.trim();
+
+    // 3. Validate username format
+    if (!sanitizedUsername || sanitizedUsername.length === 0) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid username format' },
+        { status: 400 }
+      );
+    }
+
+    // 4. Check if user exists
+    const user = await getUserByUsername(sanitizedUsername);
     if (!user || !user.password) {
       return NextResponse.json(
         { success: false, error: 'Invalid username or password' },
@@ -28,6 +41,7 @@ export async function POST(request: Request) {
       );
     }
 
+    // 5. Verify password
     const isValidPassword = await verifyPassword(password, user.password as string);
     if (!isValidPassword) {
       return NextResponse.json(
@@ -36,7 +50,8 @@ export async function POST(request: Request) {
       );
     }
 
-    await createSession(username);
+    // 6. Create session with sanitized username
+    await createSession(sanitizedUsername);
 
     return NextResponse.json({ 
       success: true,
