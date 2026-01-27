@@ -26,14 +26,14 @@ export default async function Home() {
   }));
 
   return (
-    <div className="flex h-screen overflow-hidden justify-center">
-      <aside className="hidden sm:block flex-shrink-0">
-        <Navbar />
-      </aside>
-      <main className="flex flex-col w-full sm:max-w-sm md:max-w-md h-screen overflow-hidden">
+    <div className="h-screen overflow-hidden relative">
+      <main className="absolute left-1/2 top-0 -translate-x-1/2 flex flex-col w-full sm:max-w-sm md:max-w-md h-screen overflow-hidden">
         <TweetFeed tweets={serializedTweets} username={username} />
         <Mobilenav />
       </main>
+      <aside className="hidden sm:block absolute top-0 h-screen -translate-x-full" style={{ left: 'calc(50% - 224px)' }}>
+        <Navbar />
+      </aside>
     </div>
   );
 }
