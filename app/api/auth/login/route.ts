@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getUserByUsername, verifyPassword, createSession } from '@/lib/auth';
+import { getUserByUsername, verifyPassword, createSession, verifyRecaptcha } from '@/lib/auth';
 
 export async function POST(request: Request) {
   try {
@@ -21,10 +21,19 @@ export async function POST(request: Request) {
       );
     }
 
-    // 2. Sanitize username input
+    // 2. Verify reCAPTCHA token
+    const isRecaptchaValid = await verifyRecaptcha(captchaToken);
+    if (!isRecaptchaValid) {
+      return NextResponse.json(
+        { success: false, error: 'reCAPTCHA verification failed. Please try again.' },
+        { status: 400 }
+      );
+    }
+
+    // 3. Sanitize username input
     const sanitizedUsername = username.trim();
 
-    // 3. Validate username format
+    // 4. Validate username format
     if (!sanitizedUsername || sanitizedUsername.length === 0) {
       return NextResponse.json(
         { success: false, error: 'Invalid username format' },
@@ -32,7 +41,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // 4. Check if user exists
+    // 5. Check if user exists
     const user = await getUserByUsername(sanitizedUsername);
     if (!user || !user.password) {
       return NextResponse.json(
@@ -41,7 +50,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // 5. Verify password
+    // 6. Verify password
     const isValidPassword = await verifyPassword(password, user.password as string);
     if (!isValidPassword) {
       return NextResponse.json(
@@ -50,7 +59,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // 6. Create session with sanitized username
+    // 7. Create session with sanitized username
     await createSession(sanitizedUsername);
 
     return NextResponse.json({ 

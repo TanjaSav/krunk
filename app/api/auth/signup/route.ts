@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createUser, getUserByUsername, hashPassword, createSession } from '@/lib/auth';
+import { createUser, getUserByUsername, hashPassword, createSession, verifyRecaptcha } from '@/lib/auth';
 
 export async function POST(request: Request) {
   try {
@@ -21,7 +21,16 @@ export async function POST(request: Request) {
       );
     }
 
-    // 2. Sanitize and validate inputs
+    // 2. Verify reCAPTCHA token
+    const isRecaptchaValid = await verifyRecaptcha(captchaToken);
+    if (!isRecaptchaValid) {
+      return NextResponse.json(
+        { success: false, error: 'reCAPTCHA verification failed. Please try again.' },
+        { status: 400 }
+      );
+    }
+
+    // 3. Sanitize and validate inputs
     const sanitizedUsername = username.trim();
     const sanitizedEmail = email.trim().toLowerCase();
 
@@ -50,7 +59,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // 3. Check if username already exists
+    // 4. Check if username already exists
     const existingUser = await getUserByUsername(sanitizedUsername);
     if (existingUser) {
       return NextResponse.json(
@@ -59,7 +68,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // 4. Create user with sanitized data
+    // 5. Create user with sanitized data
     const hashedPassword = await hashPassword(password);
     await createUser(sanitizedUsername, sanitizedEmail, hashedPassword);
     await createSession(sanitizedUsername);
