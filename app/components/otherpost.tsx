@@ -196,14 +196,6 @@ export default function Otherpost({
 
         {/* Reactions */}
         <div className="flex w-full justify-between pl-4 sm:pl-6 md:pl-8 lg:pl-12 pt-1.5">
-          <div className="flex gap-1 items-center">
-            <img
-              src="/images/comment.svg"
-              alt="comment"
-              className="w-3.5 h-3.5"
-            />
-            <p className="text-[#8B99A6] text-[11px]">95</p>
-          </div>
           <button
             onClick={handleRepost}
             disabled={isReposting}
@@ -224,6 +216,15 @@ export default function Otherpost({
               {formatReposts(reposts)}
             </p>
           </button>
+          <div className="flex gap-1 items-center">
+            {/* If we ever want to add comments, we can uncomment this */}
+            {/* <img
+              src="/images/comment.svg"
+              alt="comment"
+              className="w-3.5 h-3.5"
+            /> */}
+            {/* <p className="text-[#8B99A6] text-[11px]">95</p> */}
+          </div>
           <button
             onClick={handleLike}
             disabled={isUpdating}
