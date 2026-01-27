@@ -183,7 +183,7 @@ export default function Yourpost({
               <img
                 src="/images/edit.svg"
                 alt="edit"
-                className="w-4 h-4"
+                className="w-4 h-4 cursor-pointer hover:opacity-80 transition-opacity disabled:opacity-50"
                 onClick={onEdit}
               />
               <RemoveButton postId={postId} />
@@ -204,14 +204,6 @@ export default function Yourpost({
 
         {/* Reactions */}
         <div className="flex w-full justify-between pl-4 sm:pl-6 md:pl-8 lg:pl-12 pt-1.5">
-          <div className="flex gap-1 items-center">
-            <img
-              src="/images/comment.svg"
-              alt="comment"
-              className="w-3.5 h-3.5"
-            />
-            <p className="text-[#8B99A6] text-[11px]">95</p>
-          </div>
           <button
             onClick={handleRepost}
             disabled={isReposting}
@@ -232,20 +224,31 @@ export default function Yourpost({
               {formatReposts(reposts)}
             </p>
           </button>
+          <div className="flex gap-1 items-center">
+            {/* If we ever want to add comments, we can uncomment this */}
+            {/* <img
+              src="/images/comment.svg"
+              alt="comment"
+              className="w-3.5 h-3.5"
+            />
+            <p className="text-[#8B99A6] text-[11px]">95</p> */}
+          </div>
           <button
             onClick={handleLike}
             disabled={isUpdating}
-            className="flex gap-1 items-center cursor-pointer hover:opacity-80 transition-opacity disabled:opacity-50"
+            className={`flex gap-1 items-center cursor-pointer transition-opacity disabled:opacity-50 ${!isLiked ? "hover:opacity-80" : ""}`}
           >
-            <img
-              src={
-                isLiked ? "/images/profile/LikedHeart.svg" : "/images/heart.svg"
-              }
-              alt="like"
-              className="w-3.5 h-3.5"
-            />
+            <div className="w-3.5 h-3.5 flex-shrink-0 flex items-center justify-center">
+              <img
+                src={
+                  isLiked ? "/images/isliked.svg" : "/images/heart.svg"
+                }
+                alt="like"
+                className="w-3.5 h-3.5 object-contain"
+              />
+            </div>
             <p
-              className={`text-[11px] ${isLiked ? "text-red-500" : "text-[#8B99A6]"}`}
+              className={`text-[11px] min-w-[1.5rem] text-left ${isLiked ? "text-[#C81566]" : "text-[#8B99A6]"}`}
             >
               {formatLikes(likes)}
             </p>
