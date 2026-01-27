@@ -63,7 +63,7 @@ export default function ProfilePictureSelector({
         body: JSON.stringify({ profilePicture: picturePath }),
       });
 
-      const result = await response.json();
+const result = await response.json();
       
       if (result.success) {
         onSelect(picturePath);

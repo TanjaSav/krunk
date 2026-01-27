@@ -28,10 +28,10 @@ export default function TweetFeed({ tweets, username }: TweetFeedProps) {
 
   return (
     <div>
-      {/* Show WritePost for creating new posts */}
+      {/* WritePost for creating new posts */}
       {!editingPost && <WritePost onFinish={() => {}} />}
       
-      {/* Show WritePost for editing */}
+      {/*  WritePost for editing */}
       {editingPost && (
         <WritePost
           initialContent={editingPost.content}

@@ -23,7 +23,7 @@ function WritePost({
   onFinish,
 }: WritePostProps) {
   const [postContent, setPostContent] = useState("");
-  const[imageUrl, setImageUrl] = useState(initialImageUrl);
+  const [imageUrl, setImageUrl] = useState(initialImageUrl);
   const [username, setUsername] = useState<string | null>(null);
   const [profilePicture, setProfilePicture] =
     useState<string>("/images/circle.png");
@@ -64,7 +64,7 @@ function WritePost({
     const formData = {
       content: postContent,//CONTENT
       imageUrl: imageUrl, //IMAGE URL 
-      authorName: username,
+      authorName: username, 
       authorAvatar: profilePicture,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -131,7 +131,7 @@ function WritePost({
             )}
           </CldUploadWidget>
 
-   <div className="border-t border-[#313F4C] pt-4 flex justify-between items-center">
+   <div className=" pt-4 flex justify-between items-center">
 
           <button
             className={

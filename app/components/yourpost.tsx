@@ -7,7 +7,7 @@ interface TweetProps {
   _id: string;
   content: string;
   postId?: string;
-  imageUrl?: string;
+  imageUrl: string;
   createdAt: Date | string;
   authorName: string;
   authorAvatar: string;
@@ -189,7 +189,7 @@ export default function Yourpost({
               <RemoveButton postId={postId} />
             </div>
 
-            {/* Content */}
+            {/* Content  & Image*/}
             <p className="text-white text-sm">{content}</p>
             {/* Image */}
             {imageUrl && imageUrl.trim() !== "" && (
