@@ -131,25 +131,26 @@ function WritePost({
         )}
  
           {/* Widget Cloudinary Upload */}
-          <CldUploadWidget
-            uploadPreset="twitter_posts"  //DATABASE IN CLOUDINARY
-            onSuccess={(result: any) => {
-              setImageUrl(result.info.secure_url);
-            }}
-          >
-            {({ open }) => (
-              <button type="button" onClick={() => open()}>
-                <Image
-                  src="/images/addimageicon.svg"
-                  alt="Add image"
-                  width={24}
-                  height={24}
-                  className="cursor-pointer"
-                />
-              </button>
-            )}
-          </CldUploadWidget>
-
+              {!imageUrl && (
+      <CldUploadWidget
+        uploadPreset="twitter_posts"
+        onSuccess={(result: any) => {
+          setImageUrl(result.info.secure_url);
+        }}
+      >
+        {({ open }) => (
+          <button type="button" onClick={() => open()}>
+            <Image
+              src="/images/addimageicon.svg"
+              alt="Add image"
+              width={24}
+              height={24}
+              className="cursor-pointer"
+            />
+          </button>
+        )}
+      </CldUploadWidget>
+    )}
    <div className="pt-4 flex justify-between items-center">
 
           <button
@@ -160,7 +161,7 @@ function WritePost({
             }
             type="button"
             onClick={handleSubmit}
-            disabled={!postContent}
+            disabled={!postContent && !imageUrl}
           >
             {postId ? "Save" : "Post"}
 
