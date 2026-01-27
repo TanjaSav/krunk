@@ -131,7 +131,7 @@ function WritePost({
             )}
           </CldUploadWidget>
 
-   <div className="border-t border-[#313F4C] pt-4 flex justify-between items-center">
+   <div className="pt-4 flex justify-between items-center">
 
           <button
             className={
