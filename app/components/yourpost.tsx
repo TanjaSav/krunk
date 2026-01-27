@@ -239,7 +239,7 @@ export default function Yourpost({
           >
             <img
               src={
-                isLiked ? "/images/profile/LikedHeart.svg" : "/images/Heart.svg"
+                isLiked ? "/images/profile/LikedHeart.svg" : "/images/heart.svg"
               }
               alt="like"
               className="w-3.5 h-3.5"
