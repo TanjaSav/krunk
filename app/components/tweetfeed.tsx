@@ -43,7 +43,7 @@ export default function TweetFeed({ tweets, username }: TweetFeedProps) {
       </div>
 
       {/* Scrollable posts list */}
-      <div className="flex-1 overflow-y-auto min-h-0">
+      <div className="flex-1 overflow-y-auto min-h-0 scrollbar-hide">
         {tweets.map((tweet: any) =>
           tweet.authorName === username ? (
             <Yourpost
