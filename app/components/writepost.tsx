@@ -60,6 +60,7 @@ function WritePost({
       alert("Vinsamlegast bíddu á meðan við staðfestum innskráningu");
       return;
     }
+    
 //Sending data to database
     const formData = {
       content: postContent,//CONTENT
@@ -109,6 +110,25 @@ function WritePost({
           value={postContent}
           onChange={handleChange}
         />
+
+         {/* Image preview */}
+        {imageUrl && imageUrl.trim() !== "" && (
+          <div className="relative mb-4">
+            <img
+              src={imageUrl}
+              alt="Preview"
+              className="rounded-2xl max-w-full"
+            />
+            {/* Remove buttons */}
+            <button
+              type="button"
+              onClick={() => setImageUrl("")}
+              className="absolute top-2 right-2 bg-black/70 text-white rounded-full p-2 hover:bg-black/90"
+            >
+              ✕
+            </button>
+          </div>
+        )}
         <div className="border-t border-[#313F4C] pt-4 flex justify-between items-center">
  
           {/* Widget Cloudinary Upload */}

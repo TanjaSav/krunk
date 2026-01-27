@@ -10,8 +10,8 @@ export default async function getTweets() {
       .collection("posts")
       .find()
       .sort({ createdAt: -1 })
-      .toArray();
-
+      .toArray(); 
+        
     const users = database.collection("users");
     const tweetsWithCurrentAvatars = await Promise.all(
       tweets.map(async (tweet) => {

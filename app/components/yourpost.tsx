@@ -41,6 +41,8 @@ export default function Yourpost({
   const [isReposting, setIsReposting] = useState(false);
   const [formattedDate, setFormattedDate] = useState("");
 
+    console.log("🔍 Yourpost received imageUrl:", imageUrl);
+    
   useEffect(() => {
     setLikes(initialLikes || 0);
     setIsLiked(initialIsLiked || false);
