@@ -1,6 +1,6 @@
 import Navbar from "./components/navbar";
 import TweetFeed from "./components/tweetfeed";
-import getTweets  from "./lib/getTweets";
+import getTweets from "./lib/getTweets";
 import Mobilenav from "./components/mobilenav";
 import { getSession } from "./lib/auth";
 import { redirect } from "next/navigation";
@@ -26,15 +26,13 @@ export default async function Home() {
   }));
 
   return (
-    <div className="flex">
-      <aside className="hidden sm:block">
+    <div className="flex h-screen overflow-hidden justify-center">
+      <aside className="hidden sm:block flex-shrink-0">
         <Navbar />
       </aside>
-      <main className="flex flex-col w-full">
-        <div className="w-full sm:max-w-sm md:max-w-md">
-          <TweetFeed tweets={serializedTweets} username={username} />
-          <Mobilenav />
-        </div>
+      <main className="flex flex-col w-full sm:max-w-sm md:max-w-md h-screen overflow-hidden">
+        <TweetFeed tweets={serializedTweets} username={username} />
+        <Mobilenav />
       </main>
     </div>
   );
