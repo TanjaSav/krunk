@@ -54,10 +54,13 @@ export default function RemoveButton({
           }
         }}
       >
-        <RiDeleteBin6Line size={16} className="text-gray-300" />
+        <RiDeleteBin6Line
+          size={16}
+          className="text-gray-300 cursor-pointer hover:opacity-80 transition-opacity disabled:opacity-50"
+        />
       </button>
 
-        {/* Confirmation Modal */}
+      {/* Confirmation Modal */}
       <AnimatePresence>
         {showConfirm && (
           <>
@@ -68,7 +71,7 @@ export default function RemoveButton({
               exit={{ opacity: 0 }}
             />
 
-           {/* Confirmation Dialog */}
+            {/* Confirmation Dialog */}
             <motion.div
               className="fixed inset-0 flex items-center justify-center z-50"
               initial={{ opacity: 0, scale: 0.9 }}
@@ -79,13 +82,15 @@ export default function RemoveButton({
               <div className="bg-black text-white rounded-xl px-5 py-6 w-[90%] max-w-sm border border-[#2f3336] shadow-xl">
                 <p className="text-[15px] leading-snug mb-5 font-normal">
                   <span className="font-semibold block mb-2">Delete post?</span>
-                  This can't be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from search results.
+                  This can't be undone and it will be removed from your profile,
+                  the timeline of any accounts that follow you, and from search
+                  results.
                 </p>
 
                 <div className="flex justify-end gap-3">
                   <button
                     onClick={() => setShowConfirm(false)}
-                    className="px-4 py-2 rounded-full text-sm bg-black text-white border border-[#6f7172] hover:bg-[#1a1a1a] transition-colors" 
+                    className="px-4 py-2 rounded-full text-sm bg-black text-white border border-[#6f7172] hover:bg-[#1a1a1a] transition-colors"
                   >
                     Cancel
                   </button>
