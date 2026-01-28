@@ -10,9 +10,13 @@ cp .env.example .env.local
 ```
 
 2. Configure your environment variables in `.env.local`:
-   - **NEXT_PUBLIC_RECAPTCHA_SITE_KEY**: Get your reCAPTCHA site key from [Google reCAPTCHA Admin](https://www.google.com/recaptcha/admin/create)
+   - **NEXT_PUBLIC_RECAPTCHA_SITE_KEY**: Get your reCAPTCHA site key (public) from [Google reCAPTCHA Admin](https://www.google.com/recaptcha/admin/create)
      - For testing, you can use: `6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI`
      - For production, you need a real key from Google
+   - **RECAPTCHA_SECRET_KEY**: Get your reCAPTCHA secret key (private) from the same Google reCAPTCHA Admin page
+     - ⚠️ **IMPORTANT**: This is used for server-side verification and should NEVER be exposed to the client
+     - The secret key is different from the site key - you'll see both when you create a reCAPTCHA site
+     - For testing with the test site key above, you can use: `6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe`
    - **MONGODB_URI**: Your MongoDB connection string from [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
 
 3. Restart the development server after updating `.env.local`

@@ -1,6 +1,6 @@
 # Vercel Environment Variables Setup
 
-## Adding reCAPTCHA Site Key to Vercel
+## Adding reCAPTCHA Keys to Vercel
 
 ### Step-by-Step Instructions:
 
@@ -14,15 +14,19 @@
     - Click on **Settings** in the top navigation
     - Click on **Environment Variables** in the left sidebar
 
-3.  **Add the Environment Variable**
+3.  **Add the Site Key (Public)**
     - Click **Add New** button
     - **Key**: `NEXT_PUBLIC_RECAPTCHA_SITE_KEY`
-    - **Value**: `6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI`
-    - **Environment**: Select all three: - ☑ Production
-      <<<<<<< HEAD - ☑ Preview
-      ======= - ☑ Preview
-      > > > > > > > 68fdba8721813ae99500c561887123fdc5c4a0c1
-           - ☑ Development
+    - **Value**: `6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI` (test key) or your real site key
+    - **Environment**: Select all three: ☑ Production, ☑ Preview, ☑ Development
+    - Click **Save**
+
+4.  **Add the Secret Key (Private) - REQUIRED for Server-Side Verification**
+    - Click **Add New** button again
+    - **Key**: `RECAPTCHA_SECRET_KEY`
+    - **Value**: `6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe` (test secret) or your real secret key
+    - ⚠️ **IMPORTANT**: This is a private key - never expose it to the client
+    - **Environment**: Select all three: ☑ Production, ☑ Preview, ☑ Development
     - Click **Save**
 
 4.  **Redeploy**
@@ -37,18 +41,23 @@ After redeploying, the reCAPTCHA should work on your Vercel deployment. The test
 
 ### Note
 
-The test key (`6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI`) is Google's public test key that always passes validation.
+The test keys are Google's public test keys that always pass validation:
+- **Site Key**: `6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI` (public, used on client)
+- **Secret Key**: `6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe` (private, used on server)
 
 **For Production:**
 
-- Get a real key from Google reCAPTCHA: https://www.google.com/recaptcha/admin/create
+- Get real keys from Google reCAPTCHA: https://www.google.com/recaptcha/admin/create
+- When creating a reCAPTCHA site, you'll get TWO keys:
+  1. **Site Key** (public) - goes in `NEXT_PUBLIC_RECAPTCHA_SITE_KEY`
+  2. **Secret Key** (private) - goes in `RECAPTCHA_SECRET_KEY`
 - When adding domains, include:
   - `localhost`
   - `127.0.0.1`
   - `localhost:3000` (or your dev port)
   - Your Vercel domain (e.g., `your-app.vercel.app`)
-- Add the real key to Vercel environment variables
-- Keep the test key in `.env.local` for local development
+- Add both keys to Vercel environment variables
+- Keep the test keys in `.env.local` for local development
 
 **Why localhost might not work:**
 
