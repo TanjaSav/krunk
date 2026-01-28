@@ -45,7 +45,7 @@ export default function NotificationsPage() {
         
         <Mobilenav />
 
-        <div className="flex-1 overflow-y-auto min-h-0 py-22 md:py-0 scrollbar-hide border-x border-[#727272]">
+        <div className="flex-1 overflow-y-auto min-h-0 py-22 md:py-0 scrollbar-hide md:border-x border-[#727272]">
           <div className="flex justify-between items-center border-b border-[#727272] p-4 sticky top-0 bg-black z-10">
             <Link href="/" className="text-white text-[16px] font-[Poppins] flex items-center gap-2 hover:opacity-50">
                 <Image src="/images/BackArrow.svg" alt="Til baka" width={8} height={16}/>
