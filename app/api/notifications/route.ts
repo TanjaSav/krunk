@@ -12,11 +12,35 @@ export async function GET() {
     const client = await clientPromise;
     const db = client.db("twitter");
     
-    const notifications = await db.collection("notifications")
-      .find({ recipient: username })
-      .sort({ createdAt: -1 })
-      .limit(50)
-      .toArray();
+    const notifications = await db.collection("notifications").aggregate([
+      { $match: { recipient: username } },
+      { $sort: { createdAt: -1 } },
+      { $limit: 50 },
+      {
+        $lookup: {
+          from: "users",
+          localField: "sender",
+          foreignField: "username",
+          as: "senderInfo"
+        }
+      },
+      {
+        $unwind: {
+          path: "$senderInfo",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      {
+        $addFields: {
+          authorAvatar: "$senderInfo.profilePicture"
+        }
+      },
+      {
+        $project: {
+          senderInfo: 0
+        }
+      }
+    ]).toArray();
 
     return NextResponse.json(notifications);
   } catch (error) {
