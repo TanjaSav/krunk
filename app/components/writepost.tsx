@@ -17,7 +17,7 @@ interface WritePostProps {
 function WritePost({
   postId,
   initialContent = "",
-  initialImageUrl = "", 
+  initialImageUrl = "",
   onFinish,
 }: WritePostProps) {
   const [postContent, setPostContent] = useState("");
@@ -98,7 +98,7 @@ function WritePost({
   };
 
   return (
-    <div className="flex flex-col w-full border-[#313F4C] border px-4 py-5 mt-22 md:m-0 font-normal">
+    <div className="flex flex-col w-full border-[#313F4C] border px-4 py-5 font-normal">
       <div className="flex flex-col">
         <input
           type="text"
@@ -127,27 +127,27 @@ function WritePost({
             </div>
           )}
 
-{/* Widget Cloudinary*/}
-{!imageUrl && (
-  <CldUploadWidget
-    uploadPreset="twitter_posts"
-    onSuccess={(result: any) => {
-      setImageUrl(result.info.secure_url);
-    }}
-  >
-    {({ open }) => (
-      <button type="button" onClick={() => open()}>
-        <Image
-          src="/images/addimageicon.svg"
-          alt="Add image"
-          width={24}
-          height={24}
-          className="cursor-pointer hover:opacity-80 transition-opacity"
-        />
-      </button>
-    )}
-  </CldUploadWidget>
-)}
+          {/* Widget Cloudinary*/}
+          {!imageUrl && (
+            <CldUploadWidget
+              uploadPreset="twitter_posts"
+              onSuccess={(result: any) => {
+                setImageUrl(result.info.secure_url);
+              }}
+            >
+              {({ open }) => (
+                <button type="button" onClick={() => open()}>
+                  <Image
+                    src="/images/addimageicon.svg"
+                    alt="Add image"
+                    width={24}
+                    height={24}
+                    className="cursor-pointer hover:opacity-80 transition-opacity"
+                  />
+                </button>
+              )}
+            </CldUploadWidget>
+          )}
           <div className="pt-4 flex justify-between items-center">
             <button
               className={
@@ -157,7 +157,7 @@ function WritePost({
               }
               type="button"
               onClick={handleSubmit}
-                disabled={!postContent && !imageUrl} 
+              disabled={!postContent && !imageUrl}
             >
               {postId ? "Save" : "Post"}
             </button>

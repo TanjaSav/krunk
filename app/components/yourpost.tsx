@@ -168,7 +168,7 @@ export default function Yourpost({
           <img
             src={authorAvatar || "/images/circle.png"}
             alt={authorName}
-            className="w-10 h-10 rounded-full object-cover"
+            className="w-10 h-10 rounded-full object-cover aspect-square"
           />
           <div className="w-full">
             <div className="flex flex-row w-full justify-between items-center">
@@ -238,17 +238,15 @@ export default function Yourpost({
             disabled={isUpdating}
             className={`flex gap-1 items-center cursor-pointer transition-opacity disabled:opacity-50 ${!isLiked ? "hover:opacity-80" : ""}`}
           >
-            <div className="w-3.5 h-3.5 flex-shrink-0 flex items-center justify-center">
+            <div className="w-3.5 h-3.5 shrink-0 flex items-center justify-center">
               <img
-                src={
-                  isLiked ? "/images/isliked.svg" : "/images/heart.svg"
-                }
+                src={isLiked ? "/images/isliked.svg" : "/images/heart.svg"}
                 alt="like"
                 className="w-3.5 h-3.5 object-contain"
               />
             </div>
             <p
-              className={`text-[11px] min-w-[1.5rem] text-left ${isLiked ? "text-[#C81566]" : "text-[#8B99A6]"}`}
+              className={`text-[11px] min-w-6 text-left ${isLiked ? "text-[#C81566]" : "text-[#8B99A6]"}`}
             >
               {formatLikes(likes)}
             </p>

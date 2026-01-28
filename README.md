@@ -36,11 +36,6 @@ CRUD operations are the four basic operations for persistent storage:
     - Input is **validated** to prevent malformed or malicious requests
     - API routes are **modular**, scalable, and easy to maintain
   
-### Base URL
-```
-http://localhost:3000/api
-```
-
 ## TECHSTACK: 
 
 ### Frontend:

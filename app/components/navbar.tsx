@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import ProfilePictureSelector from "./profilepictureselector";
 
 export default function Navbar() {
@@ -11,6 +12,7 @@ export default function Navbar() {
     useState<string>("/images/circle.png");
   const [showSelector, setShowSelector] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     fetch("/api/auth/me")
@@ -78,20 +80,34 @@ export default function Navbar() {
 
         {/*  Navigation links */}
         <ul className="space-y-6">
-          <li className="flex items-center gap-4 cursor-pointer hover:opacity-80">
-            <Image src="/images/home.svg" alt="Heim" width={20} height={20} />
-            <span className="text-poppins text-[16] font-regular">Heim</span>
+          <li>
+            <Link
+              href="/"
+              className="flex items-center gap-4 cursor-pointer hover:opacity-80"
+            >
+              <Image src="/images/home.svg" alt="Heim" width={20} height={20} />
+              <span className="text-poppins text-[16] font-regular">Heim</span>
+            </Link>
           </li>
-          <li className="flex items-center gap-4 cursor-pointer hover:opacity-80">
-            <Image
-              src="/images/notifications.svg"
-              alt="Tilkynningar"
-              width={20}
-              height={20}
-            />
-            <span className="text-poppins text-[16] font-regular">
-              Tilkynningar
-            </span>
+          <li>
+            <Link
+              href="/notifications"
+              className="flex items-center gap-4 cursor-pointer hover:opacity-80"
+            >
+              <Image
+                src={
+                  pathname === "/notifications"
+                    ? "/images/NotiActive.svg"
+                    : "/images/notifications.svg"
+                }
+                alt="Tilkynningar"
+                width={20}
+                height={20}
+              />
+              <span className="text-poppins text-[16] font-regular">
+                Tilkynningar
+              </span>
+            </Link>
           </li>
 
           <li
@@ -120,7 +136,9 @@ export default function Navbar() {
             alt="Profile Picture"
             width={42}
             height={42}
-            className="rounded-full object-cover"
+            className="rounded-full object-cover aspect-square"
+            priority
+            loading="eager"
             onError={(e) => {
               e.currentTarget.src = "/images/circle.png";
             }}

@@ -27,11 +27,14 @@ export default async function Home() {
 
   return (
     <div className="h-screen overflow-hidden relative">
-      <main className="absolute left-1/2 top-0 -translate-x-1/2 flex flex-col w-full sm:max-w-sm md:max-w-md h-screen overflow-hidden">
+      <main className="absolute left-1/2 top-0 -translate-x-1/2 flex flex-col w-full sm:max-w-sm md:max-w-md h-screen overflow-hidden pt-22 pb-22 md:pt-0 md:pb-0">
         <TweetFeed tweets={serializedTweets} username={username} />
         <Mobilenav />
       </main>
-      <aside className="hidden sm:block absolute top-0 h-screen -translate-x-full" style={{ left: 'calc(50% - 224px)' }}>
+      <aside
+        className="hidden sm:block absolute top-0 h-screen -translate-x-full"
+        style={{ left: "calc(50% - 224px)" }}
+      >
         <Navbar />
       </aside>
     </div>
