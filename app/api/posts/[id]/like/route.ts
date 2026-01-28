@@ -7,8 +7,11 @@ export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  console.log("--- LIKE ROUTE HIT ---"); // NEW LOG
   try {
     const username = await getSession();
+    console.log("Current User:", username); // NEW LOG
+
     if (!username) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized. Please log in.' },
@@ -67,15 +70,20 @@ export async function POST(
 
     const post = await posts.findOne({ _id: objectId });
     if (!post) {
+      console.log("Post not found for ID:", id); // NEW LOG
       return NextResponse.json(
+
         { success: false, error: 'Post not found' },
         { status: 404 }
       );
     }
 
     const likedBy = post.likedBy || [];
-    const currentLikes = typeof post.likes === 'number' ? post.likes : 0;
     const isLiked = likedBy.includes(username);
+
+    console.log("Post Author:", post.authorName); // NEW LOG
+    console.log("Is Liked (before toggle):", isLiked); // NEW LOG
+    const currentLikes = typeof post.likes === 'number' ? post.likes : 0;
 
     let updateOperation: any;
     if (isLiked) {
@@ -100,6 +108,22 @@ export async function POST(
       updateOperation,
       { returnDocument: 'after' }
     );
+
+    if (!isLiked && post.authorName !== username) {
+        console.log("Creating notification for:", post.authorName, "from:", username);
+        const notifications = database.collection("notifications");
+        await notifications.insertOne({
+          recipient: post.authorName, 
+            sender: username,
+            type: "like",
+            postId: id,
+            isRead: false,
+            createdAt: new Date()
+        });
+        console.log("Notification created successfully");
+      } else {
+        console.log("Skipping notification. isLiked:", isLiked, "author:", post.authorName, "user:", username);
+      }
 
     let finalLikes: number;
     if (updatedPost && updatedPost.value && typeof updatedPost.value.likes === 'number') {

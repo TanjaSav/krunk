@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Mobilenav() {
   return (
@@ -52,29 +53,32 @@ export default function Mobilenav() {
           </div>
         </div>
 
-        {/*  Navigation links */}
-        <ul className="flex flex-row gap-16">
-          <li>
-            <Image src="/images/home.svg" alt="Heim" width={24} height={24} />
-          </li>
-          <li className="">
-            <Image
-              src="/images/notifications.svg"
-              alt="Tilkynningar"
-              width={24}
-              height={24}
-            />
-          </li>
-          <li className="">
-            <Image
-              src="/images/logout.svg"
-              alt="Skrá út"
-              width={24}
-              height={24}
-            />
-          </li>
-        </ul>
-      </footer>
-    </>
-  );
+                {/*  Navigation links */}
+                <ul className="flex flex-row gap-16">
+                    <li>
+                    <Link href="/page.tsx">
+                    <Image src="/images/home.svg" 
+                        alt="Heim" width={24} height={24}
+                    />
+                    </Link>
+                    </li>
+
+                    <li>
+                        <Link href="/notifications">
+                            <Image
+                                src="/images/notifications.svg" 
+                                alt="Tilkynningar" width={24} height={24}
+                            />
+                        </Link>
+                    </li>
+
+                    <li>
+                    <Image src="/images/logout.svg" 
+                        alt="Skrá út" width={24} height={24} 
+                    />
+                    </li>
+                </ul>
+            </footer>
+        </>
+    );
 }

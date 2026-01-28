@@ -93,6 +93,7 @@ export default function Navbar() {
               Tilkynningar
             </span>
           </li>
+
           <li
             className="flex items-center gap-4 cursor-pointer hover:opacity-80"
             onClick={handleLogout}
