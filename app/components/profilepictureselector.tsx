@@ -333,7 +333,7 @@ export default function ProfilePictureSelector({
                     alt={`Profile option ${card.actualIndex + 1}`}
                     width={64}
                     height={64}
-                    className="object-cover rounded-full w-full h-full"
+                    className="object-cover rounded-full w-full h-full aspect-square"
                     priority={isCurrent}
                     loading={isCurrent ? "eager" : "lazy"}
                     onError={(e) => {

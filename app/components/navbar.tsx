@@ -136,7 +136,7 @@ export default function Navbar() {
             alt="Profile Picture"
             width={42}
             height={42}
-            className="rounded-full object-cover"
+            className="rounded-full object-cover aspect-square"
             priority
             loading="eager"
             onError={(e) => {
