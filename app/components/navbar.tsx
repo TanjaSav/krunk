@@ -85,7 +85,7 @@ export default function Navbar() {
               href="/"
               className="flex items-center gap-4 cursor-pointer hover:opacity-80"
             >
-              <Image src="/images/home.svg" alt="Heim" width={20} height={20} />
+              <Image src="/images/Home.svg" alt="Heim" width={20} height={20} />
               <span className="text-poppins text-[16] font-regular">Heim</span>
             </Link>
           </li>
@@ -97,7 +97,7 @@ export default function Navbar() {
               <Image
                 src={
                   pathname === "/notifications"
-                    ? "/images/NotiActive.svg"
+                    ? "/images/NotificationActive.svg"
                     : "/images/notifications.svg"
                 }
                 alt="Tilkynningar"
