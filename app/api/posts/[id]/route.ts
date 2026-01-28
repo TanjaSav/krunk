@@ -89,8 +89,7 @@ export async function PUT(request: Request) {
         { status: 404 }
       );
     }
-
-    // Success response
+  // Success response
     return NextResponse.json({ success: true });
   } catch (error: any) {
     console.error("PUT /api/posts/[id] error:", error);
