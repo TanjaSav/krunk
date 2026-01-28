@@ -24,19 +24,22 @@ export async function PUT(request: Request) {
       );
     }
 
-    // 3. Parse and validate request body
-    const body = await request.json();
-    
-    // Sanitize content - trim whitespace
-    const sanitizedContent = body.content?.trim() || "";
-    
-    if (!sanitizedContent || sanitizedContent.length === 0) {
-      return NextResponse.json(
-        { success: false, error: "Post content cannot be empty" },
-        { status: 400 }
-      );
-    }
+// 3. Parse and validate request body
+const body = await request.json();
 
+// Sanitize content - trim whitespace
+const sanitizedContent = body.content?.trim() || "";
+
+// Sanitize imageUrl if provided
+const sanitizedImageUrl = body.imageUrl?.trim() || "";
+
+// Check if BOTH content and image are empty
+if ((!sanitizedContent || sanitizedContent.length === 0) && !sanitizedImageUrl) {
+  return NextResponse.json(
+    { success: false, error: "Post content or image is required" },
+    { status: 400 }
+  );
+}
     // Validate content length (prevent extremely long posts)
     if (sanitizedContent.length > 10000) {
       return NextResponse.json(
@@ -44,9 +47,6 @@ export async function PUT(request: Request) {
         { status: 400 }
       );
     }
-
-    // Sanitize imageUrl if provided
-    const sanitizedImageUrl = body.imageUrl?.trim() || "";
 
     // 4. Connect to database
     const client = await clientPromise;
