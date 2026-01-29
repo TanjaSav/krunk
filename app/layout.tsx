@@ -1,6 +1,12 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover" as const,
+};
+
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],

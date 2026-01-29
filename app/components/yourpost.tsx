@@ -168,7 +168,7 @@ export default function Yourpost({
           <img
             src={authorAvatar || "/images/circle.png"}
             alt={authorName}
-            className="w-10 h-10 rounded-full object-cover"
+            className="w-10 h-10 rounded-full object-cover aspect-square"
           />
           <div className="w-full">
             <div className="flex flex-row w-full justify-between items-center">
@@ -240,9 +240,7 @@ export default function Yourpost({
           >
             <div className="w-3.5 h-3.5 shrink-0 flex items-center justify-center">
               <img
-                src={
-                  isLiked ? "/images/isliked.svg" : "/images/heart.svg"
-                }
+                src={isLiked ? "/images/isliked.svg" : "/images/heart.svg"}
                 alt="like"
                 className="w-3.5 h-3.5 object-contain"
               />

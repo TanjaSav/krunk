@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import Yourpost from './yourpost';
-import Otherpost from './otherpost';
-import WritePost from './writepost';
+import Yourpost from "./yourpost";
+import Otherpost from "./otherpost";
+import WritePost from "./writepost";
 
 interface TweetFeedProps {
   tweets: any[];
@@ -31,7 +31,7 @@ export default function TweetFeed({ tweets, username }: TweetFeedProps) {
       {/* Fixed WritePost at top */}
       <div className="flex-shrink-0">
         {!editingPost && <WritePost onFinish={() => {}} />}
-        
+
         {editingPost && (
           <WritePost
             initialContent={editingPost.content}

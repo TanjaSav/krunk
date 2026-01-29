@@ -85,7 +85,7 @@ export default function Navbar() {
               href="/"
               className="flex items-center gap-4 cursor-pointer hover:opacity-80"
             >
-              <Image src="/images/Home.svg" alt="Heim" width={20} height={20} />
+              <Image src="/images/home.svg" alt="Heim" width={20} height={20} />
               <span className="text-poppins text-[16] font-regular">Heim</span>
             </Link>
           </li>
@@ -136,7 +136,7 @@ export default function Navbar() {
             alt="Profile Picture"
             width={42}
             height={42}
-            className="rounded-full object-cover"
+            className="rounded-full object-cover aspect-square"
             priority
             loading="eager"
             onError={(e) => {

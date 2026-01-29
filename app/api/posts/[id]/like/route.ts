@@ -1,11 +1,11 @@
-import { NextResponse } from 'next/server';
-import { getSession } from '@/lib/auth';
-import clientPromise from '@/lib/mongodb';
-import { ObjectId } from 'mongodb';
+import { NextResponse } from "next/server";
+import { getSession } from "@/lib/auth";
+import clientPromise from "@/lib/mongodb";
+import { ObjectId } from "mongodb";
 
 export async function POST(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   console.log("--- LIKE ROUTE HIT ---"); // NEW LOG
   try {
@@ -14,8 +14,8 @@ export async function POST(
 
     if (!username) {
       return NextResponse.json(
-        { success: false, error: 'Unauthorized. Please log in.' },
-        { status: 401 }
+        { success: false, error: "Unauthorized. Please log in." },
+        { status: 401 },
       );
     }
 
@@ -36,9 +36,9 @@ export async function POST(
     if (!id) {
       try {
         const url = new URL(request.url);
-        const pathParts = url.pathname.split('/').filter(Boolean);
+        const pathParts = url.pathname.split("/").filter(Boolean);
         // pathParts should be: ['api', 'posts', '{id}', 'like']
-        const postsIndex = pathParts.indexOf('posts');
+        const postsIndex = pathParts.indexOf("posts");
         if (postsIndex >= 0 && postsIndex + 1 < pathParts.length) {
           id = pathParts[postsIndex + 1];
         }
@@ -49,22 +49,22 @@ export async function POST(
 
     if (!id) {
       return NextResponse.json(
-        { success: false, error: 'Post ID is required' },
-        { status: 400 }
+        { success: false, error: "Post ID is required" },
+        { status: 400 },
       );
     }
 
     const client = await clientPromise;
-    const database = client.db('twitter');
-    const posts = database.collection('posts');
+    const database = client.db("twitter");
+    const posts = database.collection("posts");
 
     let objectId;
     try {
       objectId = new ObjectId(id);
     } catch (error) {
       return NextResponse.json(
-        { success: false, error: 'Invalid post ID' },
-        { status: 400 }
+        { success: false, error: "Invalid post ID" },
+        { status: 400 },
       );
     }
 
@@ -72,9 +72,8 @@ export async function POST(
     if (!post) {
       console.log("Post not found for ID:", id); // NEW LOG
       return NextResponse.json(
-
-        { success: false, error: 'Post not found' },
-        { status: 404 }
+        { success: false, error: "Post not found" },
+        { status: 404 },
       );
     }
 
@@ -83,20 +82,20 @@ export async function POST(
 
     console.log("Post Author:", post.authorName); // NEW LOG
     console.log("Is Liked (before toggle):", isLiked); // NEW LOG
-    const currentLikes = typeof post.likes === 'number' ? post.likes : 0;
+    const currentLikes = typeof post.likes === "number" ? post.likes : 0;
 
     let updateOperation: any;
     if (isLiked) {
       updateOperation = {
         $inc: { likes: -1 },
-        $pull: { likedBy: username }
+        $pull: { likedBy: username },
       };
     } else {
       updateOperation = {
-        $addToSet: { likedBy: username }
+        $addToSet: { likedBy: username },
       };
-      
-      if (typeof post.likes !== 'number') {
+
+      if (typeof post.likes !== "number") {
         updateOperation.$set = { likes: 1 };
       } else {
         updateOperation.$inc = { likes: 1 };
@@ -106,27 +105,43 @@ export async function POST(
     const updatedPost = await posts.findOneAndUpdate(
       { _id: objectId },
       updateOperation,
-      { returnDocument: 'after' }
+      { returnDocument: "after" },
     );
 
     if (!isLiked && post.authorName !== username) {
-        console.log("Creating notification for:", post.authorName, "from:", username);
-        const notifications = database.collection("notifications");
-        await notifications.insertOne({
-          recipient: post.authorName, 
-            sender: username,
-            type: "like",
-            postId: id,
-            isRead: false,
-            createdAt: new Date()
-        });
-        console.log("Notification created successfully");
-      } else {
-        console.log("Skipping notification. isLiked:", isLiked, "author:", post.authorName, "user:", username);
-      }
+      console.log(
+        "Creating notification for:",
+        post.authorName,
+        "from:",
+        username,
+      );
+      const notifications = database.collection("notifications");
+      await notifications.insertOne({
+        recipient: post.authorName,
+        sender: username,
+        type: "like",
+        postId: id,
+        isRead: false,
+        createdAt: new Date(),
+      });
+      console.log("Notification created successfully");
+    } else {
+      console.log(
+        "Skipping notification. isLiked:",
+        isLiked,
+        "author:",
+        post.authorName,
+        "user:",
+        username,
+      );
+    }
 
     let finalLikes: number;
-    if (updatedPost && updatedPost.value && typeof updatedPost.value.likes === 'number') {
+    if (
+      updatedPost &&
+      updatedPost.value &&
+      typeof updatedPost.value.likes === "number"
+    ) {
       finalLikes = updatedPost.value.likes;
     } else {
       finalLikes = isLiked ? Math.max(0, currentLikes - 1) : currentLikes + 1;
@@ -135,13 +150,13 @@ export async function POST(
     return NextResponse.json({
       success: true,
       likes: finalLikes,
-      isLiked: !isLiked
+      isLiked: !isLiked,
     });
   } catch (error: any) {
-    console.error('Error toggling like:', error);
+    console.error("Error toggling like:", error);
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to toggle like' },
-      { status: 500 }
+      { success: false, error: error.message || "Failed to toggle like" },
+      { status: 500 },
     );
   }
 }
