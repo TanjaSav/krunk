@@ -7,7 +7,6 @@ import { useRouter, usePathname } from "next/navigation";
 import ProfilePictureSelector from "./profilepictureselector";
 
 export default function Mobilenav() {
-  const [username, setUsername] = useState<string | null>(null);
   const [profilePicture, setProfilePicture] =
     useState<string>("/images/circle.png");
   const [showSelector, setShowSelector] = useState(false);
@@ -19,7 +18,6 @@ export default function Mobilenav() {
       .then((res) => res.json())
       .then((data) => {
         if (data.authenticated) {
-          setUsername(data.username);
           setProfilePicture(data.profilePicture || "/images/circle.png");
         }
       })
@@ -45,8 +43,16 @@ export default function Mobilenav() {
 
   return (
     <>
-      {/* Header */}
-      <header className="fixed top-0 left-0 w-full h-22 bg-black border-b border-[#727272] flex justify-between items-center px-6 md:hidden z-30">
+      {/* Header - safe area so it sits below browser UI on mobile */}
+      <header
+        className="fixed left-0 w-full bg-black border-b border-[#727272] flex justify-between items-center px-6 md:hidden z-30"
+        style={{
+          top: 0,
+          paddingTop: "max(env(safe-area-inset-top, 0px), 12px)",
+          paddingBottom: "12px",
+          minHeight: "5.5rem",
+        }}
+      >
         <Image
           src="/images/logo.svg"
           alt="Logo"
@@ -63,8 +69,16 @@ export default function Mobilenav() {
         />
       </header>
 
-      {/* Footer */}
-      <footer className="fixed bottom-0 left-0 w-full h-22 bg-black border-t border-[#727272] flex items-center justify-evenly px-4 md:hidden z-30">
+      {/* Footer - safe area so it stays above browser nav bar on mobile */}
+      <footer
+        className="fixed left-0 w-full bg-black border-t border-[#727272] flex items-center justify-evenly px-4 md:hidden z-30"
+        style={{
+          bottom: 0,
+          paddingTop: "12px",
+          paddingBottom: "max(env(safe-area-inset-bottom, 0px), 12px)",
+          minHeight: "5.5rem",
+        }}
+      >
         {/* Avatar */}
         <div className="relative flex-1 flex justify-center">
           <button
@@ -84,14 +98,6 @@ export default function Mobilenav() {
               }}
             />
           </button>
-          <div>
-            <div className="text-poppins text-sm font-regular">
-              {username || "Notandi"}
-            </div>
-            <div className="text-poppins text-sm text-[#8B99A6] font-regular ">
-              @{username || "username"}
-            </div>
-          </div>
 
           <ProfilePictureSelector
             isOpen={showSelector}
