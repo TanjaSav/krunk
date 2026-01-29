@@ -85,13 +85,13 @@ export default function Mobilenav() {
             />
           </button>
           <div>
-          <div className="text-poppins text-sm font-regular">
-            {username || "Notandi"}
+            <div className="text-poppins text-sm font-regular">
+              {username || "Notandi"}
+            </div>
+            <div className="text-poppins text-sm text-[#8B99A6] font-regular ">
+              @{username || "username"}
+            </div>
           </div>
-          <div className="text-poppins text-sm text-[#8B99A6] font-regular ">
-            @{username || "username"}
-          </div>
-        </div>
 
           <ProfilePictureSelector
             isOpen={showSelector}
@@ -107,7 +107,7 @@ export default function Mobilenav() {
             href="/"
             className="flex items-center justify-center p-2 hover:opacity-80 transition-opacity"
           >
-            <Image src="/images/Home.svg" alt="Heim" width={24} height={24} />
+            <Image src="/images/home.svg" alt="Heim" width={24} height={24} />
           </Link>
         </div>
 
