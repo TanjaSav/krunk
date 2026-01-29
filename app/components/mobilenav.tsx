@@ -64,7 +64,7 @@ export default function Mobilenav() {
       </header>
 
       {/* Footer */}
-      <footer className="fixed bottom-0 left-0 w-full h-22 bg-black border-t border-[#727272] flex items-center justify-evenly px-4 md:hidden z-30">
+      <footer className="fixed bottom-0 left-0 w-full bg-black border-t border-[#727272] flex items-center justify-evenly px-4 md:hidden z-30 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
         {/* Avatar */}
         <div className="relative flex-1 flex justify-center">
           <button
