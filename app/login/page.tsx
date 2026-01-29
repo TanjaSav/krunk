@@ -1,14 +1,16 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Input from "../components/input";
 import Button from "../components/button";
 import Image from "next/image";
 import Captcha from "../components/captcha";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const Login = () => {
   const router = useRouter();
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const captchaRef = useRef<ReCAPTCHA>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,10 +40,14 @@ const Login = () => {
         router.push("/");
         router.refresh();
       } else {
+        setCaptchaToken(null);
+        captchaRef.current?.reset();
         alert("Villa: " + result.error);
       }
     } catch (error) {
       console.error("Login error:", error);
+      setCaptchaToken(null);
+      captchaRef.current?.reset();
       alert("Villa við að skrá inn");
     }
   };
@@ -74,6 +80,7 @@ const Login = () => {
             placeholder="Lykilorð"
           />
           <Captcha
+            ref={captchaRef}
             onChange={handleCaptchaChange}
             onExpired={handleCaptchaExpired}
           />
