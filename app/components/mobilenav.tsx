@@ -69,16 +69,8 @@ export default function Mobilenav() {
         />
       </header>
 
-      {/* Footer - safe area so it stays above browser nav bar on mobile */}
-      <footer
-        className="fixed left-0 w-full bg-black border-t border-[#727272] flex items-center justify-evenly px-4 md:hidden z-30"
-        style={{
-          bottom: 0,
-          paddingTop: "12px",
-          paddingBottom: "max(env(safe-area-inset-bottom, 0px), 12px)",
-          minHeight: "5.5rem",
-        }}
-      >
+      {/* Footer */}
+      <footer className="fixed bottom-0 left-0 w-full bg-black border-t border-[#727272] flex items-center justify-evenly px-4 md:hidden z-30 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
         {/* Avatar */}
         <div className="relative flex-1 flex justify-center">
           <button
