@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { CldUploadWidget } from "next-cloudinary";
+import { usePopup } from "./popup-provider";
 
 interface WritePostProps {
   postId?: string;
@@ -20,6 +21,7 @@ function WritePost({
   initialImageUrl = "",
   onFinish,
 }: WritePostProps) {
+  const showPopup = usePopup();
   const [postContent, setPostContent] = useState("");
   const [imageUrl, setImageUrl] = useState(initialImageUrl);
   const [username, setUsername] = useState<string | null>(null);
@@ -55,7 +57,7 @@ function WritePost({
     e.preventDefault();
 
     if (!username) {
-      alert("Vinsamlegast bíddu á meðan við staðfestum innskráningu");
+      showPopup("Vinsamlegast bíddu á meðan við staðfestum innskráningu");
       return;
     }
     //Sending data to database
@@ -89,11 +91,11 @@ function WritePost({
         router.refresh();
         if (onFinish) onFinish();
       } else {
-        alert("Error: " + data.error);
+        showPopup("Error: " + data.error);
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Failed to submit");
+      showPopup("Failed to submit");
     }
   };
 

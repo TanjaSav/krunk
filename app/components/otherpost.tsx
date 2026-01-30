@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePopup } from "./popup-provider";
 
 interface TweetProps {
   _id: string;
@@ -28,6 +29,7 @@ export default function Otherpost({
   reposts: initialReposts = 0,
   isReposted: initialIsReposted = false,
 }: TweetProps) {
+  const showPopup = usePopup();
   const [likes, setLikes] = useState(initialLikes || 0);
   const [isLiked, setIsLiked] = useState(initialIsLiked || false);
   const [reposts, setReposts] = useState(initialReposts || 0);
@@ -77,7 +79,7 @@ export default function Otherpost({
         console.error("Non-JSON response:", text);
         setLikes(previousLikes);
         setIsLiked(previousIsLiked);
-        alert("Villa við að líka pósti: Óvænt svar frá netþjóni (ekki JSON)");
+        showPopup("Villa við að líka pósti: Óvænt svar frá netþjóni (ekki JSON)");
         return;
       }
 
@@ -91,13 +93,13 @@ export default function Otherpost({
       } else {
         setLikes(previousLikes);
         setIsLiked(previousIsLiked);
-        alert("Villa við að líka pósti: " + (result.error || "Óþekkt villa"));
+        showPopup("Villa við að líka pósti: " + (result.error || "Óþekkt villa"));
       }
     } catch (error: any) {
       console.error("Error liking post:", error);
       setLikes(previousLikes);
       setIsLiked(previousIsLiked);
-      alert("Villa við að líka pósti: " + (error.message || "Óþekkt villa"));
+      showPopup("Villa við að líka pósti: " + (error.message || "Óþekkt villa"));
     } finally {
       setIsUpdating(false);
     }
@@ -132,13 +134,13 @@ export default function Otherpost({
       } else {
         setReposts(previousReposts);
         setIsReposted(previousIsReposted);
-        alert("Villa við að endurtvíta: " + result.error);
+        showPopup("Villa við að endurtvíta: " + result.error);
       }
     } catch (error) {
       console.error("Error reposting:", error);
       setReposts(previousReposts);
       setIsReposted(previousIsReposted);
-      alert("Villa við að endurtvíta");
+      showPopup("Villa við að endurtvíta");
     } finally {
       setIsReposting(false);
     }

@@ -1,5 +1,6 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import { PopupProvider } from "./components/popup-provider";
 
 export const viewport = {
   width: "device-width",
@@ -24,7 +25,7 @@ export default function RootLayout({
         className={`${poppins.variable} bg-black text-white`}
         suppressHydrationWarning
       >
-        {children}
+        <PopupProvider>{children}</PopupProvider>
       </body>
     </html>
   );

@@ -6,16 +6,18 @@ import Button from "../components/button";
 import Image from "next/image";
 import Captcha from "../components/captcha";
 import ReCAPTCHA from "react-google-recaptcha";
+import { usePopup } from "../components/popup-provider";
 
 const SignUp = () => {
   const router = useRouter();
+  const showPopup = usePopup();
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const captchaRef = useRef<ReCAPTCHA>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!captchaToken) {
-      alert("Vinsamlegast staðfestu að þú sért ekki vélmenni");
+      showPopup("Vinsamlegast staðfestu að þú sért ekki vélmenni");
       return;
     }
     const formData = new FormData(e.currentTarget);
@@ -43,13 +45,13 @@ const SignUp = () => {
       } else {
         setCaptchaToken(null);
         captchaRef.current?.reset();
-        alert("Villa: " + result.error);
+        showPopup("Villa: " + result.error);
       }
     } catch (error) {
       console.error("Signup error:", error);
       setCaptchaToken(null);
       captchaRef.current?.reset();
-      alert("Villa við að stofna aðgang");
+      showPopup("Villa við að stofna aðgang");
     }
   };
 
