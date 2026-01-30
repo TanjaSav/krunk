@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { usePopup } from "./popup-provider";
 
 interface ProfilePictureSelectorProps {
   isOpen: boolean;
@@ -41,6 +42,7 @@ export default function ProfilePictureSelector({
   onSelect,
   currentPicture,
 }: ProfilePictureSelectorProps) {
+  const showPopup = usePopup();
   const [isUpdating, setIsUpdating] = useState(false);
   const [virtualIndex, setVirtualIndex] = useState(0); // Can go infinitely in either direction
   const [isDragging, setIsDragging] = useState(false);
@@ -142,11 +144,11 @@ export default function ProfilePictureSelector({
         // Use router.refresh() instead of window.location.reload() for faster updates
         router.refresh();
       } else {
-        alert("Villa við að uppfæra prófílmynd: " + result.error);
+        showPopup("Villa við að uppfæra prófílmynd: " + result.error);
       }
     } catch (error) {
       console.error("Error updating profile picture:", error);
-      alert("Villa við að uppfæra prófílmynd");
+      showPopup("Villa við að uppfæra prófílmynd");
     } finally {
       setIsUpdating(false);
     }

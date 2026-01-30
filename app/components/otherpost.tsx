@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePopup } from "./popup-provider";
 
 interface TweetProps {
   _id: string;
@@ -28,6 +29,7 @@ export default function Otherpost({
   reposts: initialReposts = 0,
   isReposted: initialIsReposted = false,
 }: TweetProps) {
+  const showPopup = usePopup();
   const [likes, setLikes] = useState(initialLikes || 0);
   const [isLiked, setIsLiked] = useState(initialIsLiked || false);
   const [reposts, setReposts] = useState(initialReposts || 0);
@@ -50,7 +52,7 @@ export default function Otherpost({
         day: "numeric",
         hour: "2-digit",
         minute: "2-digit",
-      }),
+      })
     );
   }, [createdAt]);
 
@@ -77,7 +79,9 @@ export default function Otherpost({
         console.error("Non-JSON response:", text);
         setLikes(previousLikes);
         setIsLiked(previousIsLiked);
-        alert("Villa við að líka pósti: Óvænt svar frá netþjóni (ekki JSON)");
+        showPopup(
+          "Villa við að líka pósti: Óvænt svar frá netþjóni (ekki JSON)"
+        );
         return;
       }
 
@@ -91,13 +95,17 @@ export default function Otherpost({
       } else {
         setLikes(previousLikes);
         setIsLiked(previousIsLiked);
-        alert("Villa við að líka pósti: " + (result.error || "Óþekkt villa"));
+        showPopup(
+          "Villa við að líka pósti: " + (result.error || "Óþekkt villa")
+        );
       }
     } catch (error: any) {
       console.error("Error liking post:", error);
       setLikes(previousLikes);
       setIsLiked(previousIsLiked);
-      alert("Villa við að líka pósti: " + (error.message || "Óþekkt villa"));
+      showPopup(
+        "Villa við að líka pósti: " + (error.message || "Óþekkt villa")
+      );
     } finally {
       setIsUpdating(false);
     }
@@ -132,13 +140,13 @@ export default function Otherpost({
       } else {
         setReposts(previousReposts);
         setIsReposted(previousIsReposted);
-        alert("Villa við að endurtvíta: " + result.error);
+        showPopup("Villa við að endurtvíta: " + result.error);
       }
     } catch (error) {
       console.error("Error reposting:", error);
       setReposts(previousReposts);
       setIsReposted(previousIsReposted);
-      alert("Villa við að endurtvíta");
+      showPopup("Villa við að endurtvíta");
     } finally {
       setIsReposting(false);
     }
@@ -211,7 +219,9 @@ export default function Otherpost({
               className="w-3.5 h-3.5"
             />
             <p
-              className={`text-[11px] ${isReposted ? "text-[#00BA7C]" : "text-[#8B99A6]"}`}
+              className={`text-[11px] ${
+                isReposted ? "text-[#00BA7C]" : "text-[#8B99A6]"
+              }`}
             >
               {formatReposts(reposts)}
             </p>
@@ -228,7 +238,9 @@ export default function Otherpost({
           <button
             onClick={handleLike}
             disabled={isUpdating}
-            className={`flex gap-1 items-center cursor-pointer transition-opacity disabled:opacity-50 ${!isLiked ? "hover:opacity-80" : ""}`}
+            className={`flex gap-1 items-center cursor-pointer transition-opacity disabled:opacity-50 ${
+              !isLiked ? "hover:opacity-80" : ""
+            }`}
           >
             <div className="w-3.5 h-3.5 flex-shrink-0 flex items-center justify-center">
               <img
@@ -238,7 +250,9 @@ export default function Otherpost({
               />
             </div>
             <p
-              className={`text-[11px] min-w-[1.5rem] text-left ${isLiked ? "text-[#C81566]" : "text-[#8B99A6]"}`}
+              className={`text-[11px] min-w-[1.5rem] text-left ${
+                isLiked ? "text-[#C81566]" : "text-[#8B99A6]"
+              }`}
             >
               {formatLikes(likes)}
             </p>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import RemoveButton from "./removebutton";
+import { usePopup } from "./popup-provider";
 
 interface TweetProps {
   _id: string;
@@ -33,6 +34,7 @@ export default function Yourpost({
   reposts: initialReposts = 0,
   isReposted: initialIsReposted = false,
 }: TweetProps) {
+  const showPopup = usePopup();
   const [likes, setLikes] = useState(initialLikes || 0);
   const [isLiked, setIsLiked] = useState(initialIsLiked || false);
   const [reposts, setReposts] = useState(initialReposts || 0);
@@ -55,7 +57,7 @@ export default function Yourpost({
         day: "numeric",
         hour: "2-digit",
         minute: "2-digit",
-      }),
+      })
     );
   }, [createdAt]);
 
@@ -93,13 +95,13 @@ export default function Yourpost({
       } else {
         setLikes(previousLikes);
         setIsLiked(previousIsLiked);
-        alert("Villa við að líka pósti: " + result.error);
+        showPopup("Villa við að líka pósti: " + result.error);
       }
     } catch (error) {
       console.error("Error liking post:", error);
       setLikes(previousLikes);
       setIsLiked(previousIsLiked);
-      alert("Villa við að líka pósti");
+      showPopup("Villa við að líka pósti");
     } finally {
       setIsUpdating(false);
     }
@@ -134,13 +136,13 @@ export default function Yourpost({
       } else {
         setReposts(previousReposts);
         setIsReposted(previousIsReposted);
-        alert("Villa við að endurtvíta: " + result.error);
+        showPopup("Villa við að endurtvíta: " + result.error);
       }
     } catch (error) {
       console.error("Error reposting:", error);
       setReposts(previousReposts);
       setIsReposted(previousIsReposted);
-      alert("Villa við að endurtvíta");
+      showPopup("Villa við að endurtvíta");
     } finally {
       setIsReposting(false);
     }
@@ -219,7 +221,9 @@ export default function Yourpost({
               className="w-3.5 h-3.5"
             />
             <p
-              className={`text-[11px] ${isReposted ? "text-[#00BA7C]" : "text-[#8B99A6]"}`}
+              className={`text-[11px] ${
+                isReposted ? "text-[#00BA7C]" : "text-[#8B99A6]"
+              }`}
             >
               {formatReposts(reposts)}
             </p>
@@ -236,7 +240,9 @@ export default function Yourpost({
           <button
             onClick={handleLike}
             disabled={isUpdating}
-            className={`flex gap-1 items-center cursor-pointer transition-opacity disabled:opacity-50 ${!isLiked ? "hover:opacity-80" : ""}`}
+            className={`flex gap-1 items-center cursor-pointer transition-opacity disabled:opacity-50 ${
+              !isLiked ? "hover:opacity-80" : ""
+            }`}
           >
             <div className="w-3.5 h-3.5 shrink-0 flex items-center justify-center">
               <img
@@ -246,7 +252,9 @@ export default function Yourpost({
               />
             </div>
             <p
-              className={`text-[11px] min-w-6 text-left ${isLiked ? "text-[#C81566]" : "text-[#8B99A6]"}`}
+              className={`text-[11px] min-w-6 text-left ${
+                isLiked ? "text-[#C81566]" : "text-[#8B99A6]"
+              }`}
             >
               {formatLikes(likes)}
             </p>
